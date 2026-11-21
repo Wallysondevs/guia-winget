@@ -26,9 +26,19 @@ var NIVEIS = [
       ["tipos-de-instalador.html", "Tipos de Instalador"]
     ]}
   ]},
-  { id: "n2", nome: "Nível 2 · Intermediário", curto: "Intermediário", desc: "Antes de instalar: contratos, códigos de saída e erros", grupos: [
+  { id: "n2", nome: "Nível 2 · Intermediário", curto: "Intermediário", desc: "Instalar, listar, atualizar, fixar e remover com segurança", grupos: [
     { grupo: "Antes de Instalar", itens: [
-      ["acordos-e-interatividade.html", "Contratos e Modo Não Interativo"]
+      ["acordos-e-interatividade.html", "Contratos e Modo Não Interativo"],
+      ["baixar.html", "Baixando sem Instalar (download)"],
+      ["escopo-e-portatil.html", "Escopo de Usuário e Pacotes Portáteis"]
+    ]},
+    { grupo: "Ciclo de Vida", itens: [
+      ["instalar.html", "Instalando (install)"],
+      ["listar.html", "Listando o que Está Instalado (list)"],
+      ["atualizar.html", "Atualizando (upgrade)"],
+      ["fixar-versoes.html", "Fixando Versões (pin)"],
+      ["desinstalar.html", "Desinstalando (uninstall)"],
+      ["ciclo-completo.html", "Projeto: Ciclo Completo de um Pacote"]
     ]},
     { grupo: "Diagnóstico", itens: [
       ["codigos-de-saida.html", "Códigos de Saída"],

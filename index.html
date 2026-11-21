@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tutorial winget — o gerenciador de pacotes do Windows do zero, em português | Guia winget</title>
-<meta name="description" content="Curso de winget em português para iniciantes: buscar e ver detalhes de programas no Windows pela linha de comando, ler códigos de saída e erros, além de fontes, configurações, manifestos e scripts. Saídas reais colhidas no Windows.">
+<meta name="description" content="Curso de winget em português para iniciantes: buscar, ver detalhes, instalar, listar, atualizar, fixar e remover programas no Windows pela linha de comando, além de fontes, configurações, manifestos e scripts. Saídas reais colhidas no Windows.">
 <link rel="stylesheet" href="assets/style.css">
 <script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
@@ -22,13 +22,13 @@
 
 <div class="pager"></div>
 
-<p>A primeira aula é <a href="introducao.html">O que é o winget</a>. Depois vêm o terminal, a versão, a ajuda e, uma a uma, as aulas de busca, diagnóstico, fontes, manifestos e scripts.</p>
+<p>A primeira aula é <a href="introducao.html">O que é o winget</a>. Depois vêm o terminal, a versão, a ajuda e, uma a uma, as aulas de busca, instalação e manutenção.</p>
 
 <hr>
 
 <h2>O que é este guia</h2>
 <p>O <strong>winget</strong> procura, instala, atualiza e remove programas no Windows com um comando, a partir de catálogos públicos. Ele vem no Instalador de Aplicativo do Windows 10 e 11.</p>
-<p>O guia é para quem nunca usou a linha de comando do Windows e para quem já usa e quer ir além. O Nível 1 só consulta (nada muda no computador); o Nível 2 trata de contratos, códigos de saída e erros; o Nível 3 trata de fontes, configurações, manifestos e scripts.</p>
+<p>O guia é para quem nunca usou a linha de comando do Windows e para quem já usa e quer ir além. O Nível 1 só consulta (nada muda no computador); o Nível 2 instala, atualiza e remove um único pacote pequeno de teste, o <code>jq</code>, em escopo de usuário, e lê os códigos de saída e os erros reais do caminho; o Nível 3 trata de fontes, configurações, manifestos e scripts.</p>
 <p>O texto está em português do Brasil. Comandos e opções do winget ficam como o programa pede (<code>search</code>, <code>--exact</code>). As respostas do winget <strong>não são traduzidas</strong>: aparecem exatamente como ele escreveu, no idioma do Windows em que foram colhidas.</p>
 
 <hr>
@@ -49,7 +49,7 @@
 <hr>
 
 <h2>Escolha sua trilha</h2>
-<p>O guia tem três níveis, pensados para serem feitos em ordem. O mapa abaixo é montado a partir da lista oficial de aulas, o <code>NIVEIS</code>.</p>
+<p>O guia tem três níveis, pensados para serem feitos em ordem. O mapa abaixo é montado a partir da lista oficial de aulas, o <code>NIVEIS</code>. São 32 aulas e esta capa: 12 aulas e 12 missões no Nível 1, 11 aulas e 14 missões no Nível 2 e 9 aulas e 5 missões no Nível 3, num total de 31 missões.</p>
 <div id="mapa-niveis" class="trilhas"></div>
 
 <div class="pager"></div>

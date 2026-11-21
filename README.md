@@ -2,15 +2,17 @@
 
 Site: https://wallysondevs.github.io/guia-winget/
 
-Curso de **winget**, o gerenciador de pacotes oficial do Windows, em português, para quem **nunca usou a linha de comando do Windows** e para quem já usa e quer ir além. Funciona como uma escola: uma aula para cada assunto, organizadas em **3 níveis** (25 páginas). O curso começa no `winget --version` e na busca de pacotes e chega a códigos de saída, fontes, configurações, manifestos YAML e scripts no PowerShell.
+Curso de **winget**, o gerenciador de pacotes oficial do Windows, em português, para quem **nunca usou a linha de comando do Windows** e para quem já usa e quer ir além. Funciona como uma escola: uma aula para cada assunto, organizadas em **3 níveis** (33 páginas: a capa e 32 aulas). O curso começa no `winget --version` e na busca de pacotes, passa pelo ciclo completo de um pacote (baixar, instalar, listar, atualizar, fixar a versão e remover) e chega a fontes, configurações, manifestos YAML e scripts no PowerShell.
 
-- **Nível 1 · Iniciante** (13 páginas): começando (terminal, versão, `--info`, ajuda e erros) e encontrando pacotes (`search`, filtros, tags, `show`, versões e tipos de instalador). Aqui só se consulta: nada muda no computador.
-- **Nível 2 · Intermediário** (3 páginas): contratos e modo não interativo, códigos de saída e erros ao instalar e remover.
-- **Nível 3 · Avançado** (9 páginas): fontes, configurações, recursos experimentais, manifestos (`hash` e `validate`), scripts com winget, boas práticas e uma referência rápida.
+- **Nível 1 · Iniciante** (13 páginas, incluindo a capa): começando (terminal, versão, `--info`, ajuda e erros) e encontrando pacotes (`search`, filtros, tags, `show`, versões e tipos de instalador). Aqui só se consulta: nada muda no computador.
+- **Nível 2 · Intermediário** (11 aulas): antes de instalar (contratos, `download`, escopo de usuário e pacotes portáteis), o ciclo de vida de um pacote (`install`, `list`, `upgrade`, `pin`, `uninstall` e um projeto com o ciclo completo) e diagnóstico (códigos de saída e erros).
+- **Nível 3 · Avançado** (9 aulas): fontes, configurações, recursos experimentais, manifestos (`hash` e `validate`), scripts com winget, boas práticas e uma referência rápida.
 
-Cada aula explica a linha de comando parte por parte, mostra a resposta real do winget e o que acontece quando dá errado, com a mensagem como o programa escreveu. As saídas foram colhidas com o **winget v1.29.380** num Windows em português, por um script que só consulta. Números de versão e listas de pacotes mudam com o tempo, então a sua resposta pode trazer valores diferentes. Nos exemplos, o computador se chama `NOTEBOOK` e a usuária é a fictícia `ana`, com a pasta `C:\Users\ana`.
+Cada aula explica a linha de comando parte por parte, mostra a resposta real do winget e o que acontece quando dá errado, com a mensagem como o programa escreveu. As saídas foram colhidas com o **winget v1.29.380** num Windows em português, por um script de coleta. Nas aulas de instalação, ele usou só um pacote de teste pequeno, o `jq`, em escopo de usuário, que foi removido no fim. Números de versão e listas de pacotes mudam com o tempo, então a sua resposta pode trazer valores diferentes. Nos exemplos, o computador se chama `NOTEBOOK` e a usuária é a fictícia `ana`, com a pasta `C:\Users\ana`.
 
-Para praticar, as páginas trazem **20 missões** em caixas **Experimente**: copie o comando, rode no seu Windows e cole a resposta. Não há simulador: você usa o seu próprio winget.
+Uma dica do próprio guia: instale e remova pacotes de escopo de usuário num terminal comum, sem "Executar como administrador". Numa sessão de administrador, o winget recusa remover esse tipo de pacote (erro `0x8A15007D`), e a aula `desinstalar` mostra isso de verdade.
+
+Para praticar, as páginas trazem **31 missões** em caixas **Experimente**: copie o comando, rode no seu Windows e cole a resposta. Não há simulador: você usa o seu próprio winget.
 
 1. Leia a missão e complete o comando.
 2. Rode no PowerShell ou no CMD do seu Windows.

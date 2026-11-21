@@ -34,11 +34,24 @@
 <tr><td><code>winget search --tag json</code> / <code>--moniker jq</code> / <code>--command jq</code></td><td>procura por etiqueta, apelido ou comando</td><td><a href="buscar-tag-moniker.html">Tags e monikers</a></td></tr>
 <tr><td><code>winget show --id jqlang.jq --exact</code></td><td>detalhes do pacote</td><td><a href="mostrar.html">show</a></td></tr>
 <tr><td><code>winget show --id jqlang.jq --exact --versions</code></td><td>versões disponíveis</td><td><a href="versoes.html">Versões</a></td></tr>
+<tr><td><code>winget list --id jqlang.jq --exact</code></td><td>o pacote está instalado?</td><td><a href="listar.html">list</a></td></tr>
+<tr><td><code>winget list --id jqlang.jq --exact --upgrade-available</code></td><td>tem atualização?</td><td><a href="atualizar.html">upgrade</a></td></tr>
+<tr><td><code>winget pin list</code></td><td>pacotes fixados</td><td><a href="fixar-versoes.html">pin</a></td></tr>
 <tr><td><code>winget source list</code> / <code>source export</code></td><td>fontes configuradas</td><td><a href="fontes.html">Fontes</a></td></tr>
 <tr><td><code>winget settings export</code></td><td>configurações em JSON</td><td><a href="configuracoes.html">Configurações</a></td></tr>
 <tr><td><code>winget features</code></td><td>recursos experimentais</td><td><a href="recursos-experimentais.html">features</a></td></tr>
 <tr><td><code>winget hash arquivo</code></td><td>SHA-256 de um arquivo</td><td><a href="hash.html">hash</a></td></tr>
 <tr><td><code>winget validate --manifest arquivo.yaml</code></td><td>confere um manifesto</td><td><a href="validar-manifesto.html">validate</a></td></tr>
+</table></div>
+
+<h2>Alterar (instala, atualiza ou remove)</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Comando</th><th>Para quê</th><th>Aula</th></tr>
+<tr><td><code>winget download --id jqlang.jq --exact -d baixados</code></td><td>baixa o instalador sem instalar</td><td><a href="baixar.html">download</a></td></tr>
+<tr><td><code>winget install --id jqlang.jq --exact --scope user</code></td><td>instala na sua conta</td><td><a href="instalar.html">install</a></td></tr>
+<tr><td><code>winget upgrade --id jqlang.jq --exact</code></td><td>atualiza um pacote</td><td><a href="atualizar.html">upgrade</a></td></tr>
+<tr><td><code>winget pin add --id ...</code> / <code>pin remove</code></td><td>segura / libera a versão</td><td><a href="fixar-versoes.html">pin</a></td></tr>
+<tr><td><code>winget uninstall --id jqlang.jq --exact</code></td><td>remove</td><td><a href="desinstalar.html">uninstall</a></td></tr>
 </table></div>
 
 <h2>Opções que aparecem em quase todo comando</h2>

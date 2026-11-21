@@ -35,6 +35,8 @@
     /^O n[úu]mero solicitado de resultados deve estar entre/i,
     /^Falha na valida[çc][ãa]o do manifesto/i,
     /^Manifest Error:/,
+    // sem tradução no winget v1.29.380: sai em inglês mesmo no Windows em pt-BR (colhida)
+    /^The package installed for user scope cannot be uninstalled/i,
     // en-US
     /^No (?:installed )?package found matching input criteria/i,
     /^Multiple (?:installed )?packages found matching input criteria/i,

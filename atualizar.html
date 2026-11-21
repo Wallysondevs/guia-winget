@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atualizando (upgrade) | Guia winget</title>
+<meta name="description" content="Como ver se há atualização de um pacote com winget list --upgrade-available e atualizar um pacote específico com winget upgrade --id, sem upgrade --all.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Atualizando (<code>upgrade</code>)</h1>
+
+<p class="intro">Programas desatualizados são a porta de entrada de muitos problemas de segurança. O winget mostra o que tem versão mais recente e atualiza pacote por pacote.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Ver se um pacote tem atualização com <code>--upgrade-available</code>.</li><li>Atualizar um pacote com <code>winget upgrade --id</code>.</li><li>Por que evitar <code>upgrade --all</code> sem olhar.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<div class="tip"><strong>O pacote de teste</strong><p>Todas as aulas deste nível usam o <code>jq</code> (<code>jqlang.jq</code>), um programa de linha de comando para ler JSON, com cerca de 1 MB. Ele é <code>portable</code> e fica só na sua conta (<code>--scope user</code>). Use um terminal comum, sem administrador: na coleta deste guia, a sessão de administrador impediu a remoção (aula <a href="desinstalar.html">Desinstalando</a>).</p></div>
+<h2>1. Tem atualização?</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget list --id jqlang.jq --exact --upgrade-available
+Nenhum pacote instalado foi encontrado que corresponda aos critérios de entrada.</pre>
+<p><code>--upgrade-available</code> faz o <code>list</code> considerar só pacotes com versão mais recente no catálogo. O jq estava instalado na versão 1.8.2, a mais recente, então nenhum pacote passou no filtro. Repare em dois detalhes da resposta real: a mensagem é a mesma de pacote ausente (<code>Nenhum pacote instalado foi encontrado...</code>), mesmo com o jq instalado, e o código de saída foi <code>0</code>. Leia essa mensagem pensando no filtro: aqui ela quer dizer “nada para atualizar”.</p>
+
+<h2>2. Atualizando um pacote</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget upgrade --id jqlang.jq --exact --disable-interactivity
+Nenhuma atualização disponível foi encontrada.
+Nenhuma versão de pacote mais recente está disponível nas origens configuradas.</pre>
+<p>Com o pacote já na última versão, o <code>upgrade</code> só confere e avisa que não há o que atualizar. O código de saída, porém, não é zero: foi <code>0x8A15002B</code> (<code>-1978335189</code>). Um script que trate todo código diferente de zero como falha vai ver uma falha aqui. Quando houver versão mais recente, o mesmo comando baixa e instala.</p>
+
+<h2>3. E o <code>upgrade</code> sozinho?</h2>
+<p><code>winget upgrade</code> sem argumentos lista tudo o que tem atualização no computador (de novo, uma lista que revela seus programas; o guia não mostra). <code>winget upgrade --all</code> atualiza tudo de uma vez: prático, mas atualiza também o que você talvez quisesse segurar. Prefira olhar a lista e atualizar pelo ID, e use <a href="fixar-versoes.html"><code>pin</code></a> nos que não podem mudar.</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>winget list --upgrade-available</code></td><td>o que tem atualização</td></tr>
+<tr><td><code>winget upgrade --id ID --exact</code></td><td>atualiza um pacote</td></tr>
+<tr><td><code>winget upgrade --all</code></td><td>atualiza tudo (cuidado)</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Só os desatualizados</h3><p>Complete para listar só pacotes com atualização.</p><div class="ex-code">winget list --id jqlang.jq --exact --<input data-answer="upgrade-available" aria-label="resposta"></div></div>
+
+<div class="mc" data-answer="1"><p class="mc-q">2. O <code>upgrade</code> do jq terminou com <code>0x8A15002B</code>. O que aconteceu?</p>
+<label><input type="radio" name="q2"> O jq foi corrompido</label>
+<label><input type="radio" name="q2"> Não havia versão mais recente para instalar</label>
+<label><input type="radio" name="q2"> O winget não achou o jq</label></div>
+
+<div class="trycmd" data-goal="src:--upgrade-available\b;;src:--id\s+jqlang\.jq;;outre:jqlang\.jq|^(Nenhum pacote instalado foi encontrado|No installed package found)">
+<p class="try-task"><strong>Missão:</strong> Verifique se o jq tem atualização disponível, sem atualizar nada.</p>
+<pre class="script">
+winget list --id jqlang.jq --exact
+</pre>
+<pre class="solucao">
+winget list --id jqlang.jq --exact --upgrade-available
+</pre>
+<pre class="saida-ok" hidden>
+Nenhum pacote instalado foi encontrado que corresponda aos critérios de entrada.
+</pre>
+</div>
+
+<div class="trycmd" data-goal="src:\bupgrade\b;;src:--id\s+jqlang\.jq;;src:--exact\b|\s-e\b;;outre:^(Nenhuma atualização disponível foi encontrada|No available upgrade found|Instalado com êxito|Successfully installed)">
+<p class="try-task"><strong>Missão:</strong> Peça a atualização só do jq, pelo ID exato e sem perguntas.</p>
+<pre class="script">
+winget upgrade
+</pre>
+<pre class="solucao">
+winget upgrade --id jqlang.jq --exact --disable-interactivity
+</pre>
+<pre class="saida-ok" hidden>
+Nenhuma atualização disponível foi encontrada.
+Nenhuma versão de pacote mais recente está disponível nas origens configuradas.
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>list --upgrade-available</code> mostra o que pode ser atualizado; sem nada, responde com a mensagem de pacote não encontrado e código 0.</li>
+<li><code>upgrade --id ... --exact</code> atualiza um pacote; sem atualização, termina com <code>0x8A15002B</code>.</li>
+<li><code>upgrade --all</code> só depois de olhar a lista.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

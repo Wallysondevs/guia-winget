@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desinstalando (uninstall) | Guia winget</title>
+<meta name="description" content="Como remover um pacote com winget uninstall, por que a remoção de um pacote de escopo de usuário falha num terminal de administrador (0x8A15007D) e como conferir o resultado com list e where.exe.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Desinstalando (<code>uninstall</code>)</h1>
+
+<p class="intro">Instalar é só metade. Remover também é um comando, e conferir depois é obrigatório: na coleta deste guia, a remoção falhou, e foi a conferência que mostrou o pacote ainda instalado.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Remover o jq com <code>winget uninstall</code>.</li><li>Entender o erro <code>0x8A15007D</code>: pacote de escopo de usuário num terminal de administrador.</li><li>Conferir com <code>list</code> e <code>where.exe</code> se o pacote saiu mesmo.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<div class="tip"><strong>O pacote de teste</strong><p>Todas as aulas deste nível usam o <code>jq</code> (<code>jqlang.jq</code>), um programa de linha de comando para ler JSON, com cerca de 1 MB. Ele é <code>portable</code> e fica só na sua conta (<code>--scope user</code>). Use um terminal comum, sem administrador: na coleta deste guia, a sessão de administrador impediu a remoção (aula <a href="desinstalar.html">Desinstalando</a>).</p></div>
+<h2>1. O comando</h2>
+<pre class="cmd">winget uninstall --id jqlang.jq --exact --scope user --disable-interactivity --accept-source-agreements</pre>
+<dl class="anatomy">
+<dt>uninstall</dt><dd>remove o pacote.</dd>
+<dt>--id jqlang.jq --exact</dt><dd>exatamente este.</dd>
+<dt>--scope user</dt><dd>a instalação da sua conta.</dd>
+<dt>--disable-interactivity</dt><dd>nada de perguntas no meio.</dd>
+</dl>
+<p>Rode num terminal <strong>comum</strong>, sem “Executar como administrador”. A próxima seção mostra por quê.</p>
+
+<h2>2. Quando a remoção falha</h2>
+<p>A coleta deste guia rodou numa <strong>sessão de administrador</strong> (o PowerShell foi aberto com “Executar como administrador”). O <code>install --scope user</code> funcionou mesmo assim (aula <a href="instalar.html">Instalando</a>), mas a remoção, na mesma sessão de administrador, foi recusada:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget uninstall --id jqlang.jq --exact --scope user --disable-interactivity --accept-source-agreements
+Encontrado jq [jqlang.jq]
+The package installed for user scope cannot be uninstalled when running with administrator privileges.</pre>
+<p>O winget achou o pacote (<code>Encontrado jq [jqlang.jq]</code>) e parou com o código <code>0x8A15007D</code> (<code>-1978335107</code>). A mensagem diz que um pacote instalado no escopo de usuário não pode ser desinstalado quando o winget roda com privilégios de administrador. Repare que ela veio em inglês, mesmo com o Windows em português: essa frase não está traduzida nesta versão do winget (v1.29.380).</p>
+<p>A causa é a combinação das duas coisas: pacote de escopo de usuário (<code>--scope user</code>) e terminal de administrador. A solução é fechar o terminal de administrador, abrir um terminal comum e rodar a remoção nele:</p>
+<pre class="cmd">winget uninstall --id jqlang.jq --exact</pre>
+<p>A saída desse comando não foi registrada na coleta, por isso o guia não a mostra. Confira o resultado no seu Windows com os comandos da próxima seção.</p>
+
+<h2>3. Conferindo: o jq continuou instalado</h2>
+<p>Logo depois da falha, a coleta conferiu com <code>list</code> e <code>where.exe</code> (este com o PATH relido do registro, como num terminal aberto depois da tentativa):</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget list --id jqlang.jq --exact
+Nome ID        Versão Origem
+-----------------------------
+jq   jqlang.jq 1.8.2  winget
+PS C:\Users\ana&gt; where.exe jq
+C:\Users\ana\AppData\Local\Microsoft\WinGet\Links\jq.exe</pre>
+<p>O <code>list</code> ainda mostra o jq 1.8.2, e o <code>where.exe</code> ainda acha o atalho <code>jq.exe</code> na pasta <code>WinGet\Links</code>. É assim que se descobre uma remoção que não aconteceu: o código de saída diferente de zero avisa, e o <code>list</code> confirma.</p>
+<p>Depois de uma remoção bem-sucedida, os mesmos dois comandos servem de prova: o <code>list</code> responde com a mensagem de pacote instalado não encontrado, a mesma de antes da instalação (aula <a href="listar.html">Listando</a>), e o <code>where.exe</code> não acha mais o <code>jq</code>.</p>
+
+<h2>4. O que fica para trás</h2>
+<p>Num portátil, a remoção apaga a pasta do pacote em <code>WinGet\Packages</code> e o atalho em <code>WinGet\Links</code> (aula <a href="escopo-e-portatil.html">Escopo e Portáteis</a>). Se a remoção falha, como aqui, os dois continuam lá. A própria pasta Links continua no PATH da sua conta, vazia ou com atalhos de outros portáteis: é inofensivo. Instaladores tradicionais (<code>msi</code>, <code>exe</code>) seguem as regras do próprio desinstalador e podem deixar configurações na sua pasta de usuário.</p>
+
+
+<hr>
+<h2 id="errado">Quando dá errado</h2>
+
+<p><code>0x8A15007D</code> com a mensagem sobre <em>user scope</em> e <em>administrator privileges</em>: a sessão é de administrador. Abra um terminal comum e rode o <code>uninstall</code> de novo. Se a resposta for que nenhum pacote instalado corresponde, o pacote já não está lá ou o ID está errado (aula <a href="erros-de-instalacao.html">Erros ao Instalar e Remover</a>).</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>winget uninstall --id ID --exact</code></td><td>remove o pacote (terminal comum)</td></tr>
+<tr><td><code>0x8A15007D</code></td><td>pacote de escopo de usuário numa sessão de administrador: nada foi removido</td></tr>
+<tr><td><code>--purge</code></td><td>num portátil, apaga também os arquivos criados na pasta dele</td></tr>
+<tr><td><code>where.exe comando</code></td><td>o comando ainda existe?</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Remover</h3><p>Complete para remover o jq.</p><div class="ex-code">winget <input data-answer="uninstall" aria-label="resposta"> --id jqlang.jq --exact</div></div>
+
+<div class="mc" data-answer="1"><p class="mc-q">2. O <code>uninstall</code> do jq terminou com <code>0x8A15007D</code>. O que fazer?</p>
+<label><input type="radio" name="q2"> Reinstalar o jq e tentar de novo no mesmo terminal</label>
+<label><input type="radio" name="q2"> Rodar o mesmo comando num terminal comum, sem administrador</label>
+<label><input type="radio" name="q2"> Usar <code>winget upgrade --all</code></label></div>
+
+<div class="trycmd" data-goal="src:\buninstall\b;;src:--id\s+jqlang\.jq;;src:--exact\b|\s-e\b;;outre:^(Encontrado|Found) jq \[jqlang\.jq\]">
+<p class="try-task"><strong>Missão:</strong> Peça a remoção do jq pelo ID exato, em escopo de usuário e sem perguntas, num terminal comum.</p>
+<pre class="script">
+winget uninstall
+</pre>
+<pre class="solucao">
+winget uninstall --id jqlang.jq --exact --scope user --disable-interactivity --accept-source-agreements
+</pre>
+<pre class="saida-ok" hidden>
+Encontrado jq [jqlang.jq]
+The package installed for user scope cannot be uninstalled when running with administrator privileges.
+</pre>
+</div>
+
+<div class="trycmd" data-goal="src:\blist\b;;src:--id\s+jqlang\.jq;;src:--exact\b|\s-e\b;;outre:jqlang\.jq|^(Nenhum pacote instalado foi encontrado|No installed package found)">
+<p class="try-task"><strong>Missão:</strong> Depois da remoção, confira com <code>list</code>, pelo ID exato, se o jq ainda aparece.</p>
+<pre class="script">
+winget list jq
+</pre>
+<pre class="solucao">
+winget list --id jqlang.jq --exact
+</pre>
+<pre class="saida-ok" hidden>
+Nome ID        Versão Origem
+-----------------------------
+jq   jqlang.jq 1.8.2  winget
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>uninstall --id ... --exact</code> remove; rode num terminal comum.</li>
+<li>Pacote de escopo de usuário + sessão de administrador = <code>0x8A15007D</code>, e nada é removido.</li>
+<li>Confira sempre com <code>list</code> e <code>where.exe</code>: foram eles que mostraram o jq ainda instalado.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escopo de Usuário e Pacotes Portáteis | Guia winget</title>
+<meta name="description" content="O que significa --scope user no winget, onde ficam os pacotes portáteis (WinGet\Packages e WinGet\Links) e por que é preciso abrir outro terminal depois de instalar.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Escopo de Usuário e Pacotes Portáteis</h1>
+
+<p class="intro">Instalar “só para mim” ou “para todos”? E onde vai parar um programa que não tem instalador? Esta aula abre a caixa do pacote portátil.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>A diferença entre <code>--scope user</code> e <code>--scope machine</code>.</li><li>Onde o winget guarda um pacote portátil e o atalho dele.</li><li>Por que o comando só funciona num terminal aberto depois da instalação.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<div class="tip"><strong>O pacote de teste</strong><p>Todas as aulas deste nível usam o <code>jq</code> (<code>jqlang.jq</code>), um programa de linha de comando para ler JSON, com cerca de 1 MB. Ele é <code>portable</code> e fica só na sua conta (<code>--scope user</code>). Use um terminal comum, sem administrador: na coleta deste guia, a sessão de administrador impediu a remoção (aula <a href="desinstalar.html">Desinstalando</a>).</p></div>
+<h2>1. Escopo</h2>
+<dl class="anatomy">
+<dt>--scope user</dt><dd>instala só para a sua conta, em pastas dentro de <code>C:\Users\ana</code>; não precisa de administrador.</dd>
+<dt>--scope machine</dt><dd>instala para todas as contas (por exemplo, em <code>C:\Program Files</code>); costuma pedir permissão de administrador.</dd>
+</dl>
+<div class="warning"><strong>Escopo de usuário, terminal comum</strong><p>Instale e remova pacotes de escopo de usuário num terminal comum, sem “Executar como administrador”. Na coleta deste guia, o terminal era de administrador: o <code>install --scope user</code> funcionou, mas o <code>uninstall</code> foi recusado com o código <code>0x8A15007D</code> (aula <a href="desinstalar.html">Desinstalando</a>).</p></div>
+
+<h2>2. Onde o jq foi parar</h2>
+<p>Um pacote portátil vai para uma pasta própria dentro de <code>%LOCALAPPDATA%\Microsoft\WinGet\Packages</code>:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; Get-ChildItem "$env:LOCALAPPDATA\Microsoft\WinGet\Packages" -Directory -Filter "jqlang.jq*" | Select-Object Name
+
+Name
+----
+jqlang.jq_Microsoft.Winget.Source_8wekyb3d8bbwe</pre>
+<p>O nome da pasta junta o ID do pacote (<code>jqlang.jq</code>) e o nome da fonte de onde ele veio (<code>Microsoft.Winget.Source_8wekyb3d8bbwe</code>, a fonte <code>winget</code>).</p>
+<p>E o winget cria um atalho com o nome do comando na pasta <code>%LOCALAPPDATA%\Microsoft\WinGet\Links</code>, que ele põe no PATH da sua conta. É por isso que basta digitar <code>jq</code>:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; where.exe jq
+C:\Users\ana\AppData\Local\Microsoft\WinGet\Links\jq.exe</pre>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; jq --version
+jq-1.8.2</pre>
+<p>Antes desses dois comandos, a coleta releu o PATH do registro, que é o que acontece num terminal aberto <strong>depois</strong> da instalação.</p>
+
+<div class="warning"><strong>Abra outro terminal</strong><p>O PATH é lido quando o terminal abre. O próprio <code>install</code> avisa: <code>Variável de ambiente do caminho modificada; reinicie seu shell para usar o novo valor.</code> (aula <a href="instalar.html">Instalando</a>). Feche e abra o terminal (ou abra outra aba) antes de rodar o comando instalado.</p></div>
+
+
+<hr>
+<h2 id="errado">Quando dá errado</h2>
+
+<p>Se <code>jq</code> não for reconhecido logo depois de instalar, quase sempre é o PATH antigo do terminal: abra outro. Se continuar, confira se a pasta Links aparece no PATH da sua conta (<em>Configurações › Sistema › Sobre › Configurações avançadas do sistema › Variáveis de Ambiente</em>).</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>--scope user</code></td><td>só na sua conta (terminal comum)</td></tr>
+<tr><td><code>--scope machine</code></td><td>para todas as contas</td></tr>
+<tr><td><code>where.exe jq</code></td><td>mostra de onde vem o comando jq</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="mc" data-answer="1"><p class="mc-q">1. Você instalou o jq e o mesmo terminal diz que <code>jq</code> não existe. O que fazer primeiro?</p>
+<label><input type="radio" name="q1"> Reinstalar o Windows</label>
+<label><input type="radio" name="q1"> Abrir outro terminal</label>
+<label><input type="radio" name="q1"> Rodar <code>winget source reset</code></label></div>
+
+<div class="trycmd" data-goal="src:^\s*jq(\.exe)?\s+--version\b;;outre:^jq-\d">
+<p class="try-task"><strong>Missão:</strong> Num terminal aberto depois da instalação, mostre a versão do jq.</p>
+<pre class="script">
+jq
+</pre>
+<pre class="solucao">
+jq --version
+</pre>
+<pre class="saida-ok" hidden>
+jq-1.8.2
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>--scope user</code> instala só para você, sem administrador.</li>
+<li>Portáteis ficam em <code>WinGet\Packages</code>, com atalho em <code>WinGet\Links</code>.</li>
+<li>Depois de instalar, abra outro terminal.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

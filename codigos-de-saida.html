@@ -44,11 +44,13 @@ inexistente: código -1978335212</pre>
 <div class="table-wrap"><table class="ref">
 <tr><th>Código</th><th>Decimal</th><th>Quando apareceu</th><th>Aula</th></tr>
 <tr><td><code>0x8A150002</code></td><td><code>-1978335230</code></td><td>argumento, comando ou valor inválido (<code>--opcao-que-nao-existe</code>, <code>serch</code>, <code>--count abc</code>)</td><td><a href="lendo-erros.html">Lendo Mensagens de Erro</a></td></tr>
-<tr><td><code>0x8A150014</code></td><td><code>-1978335212</code></td><td>nenhum pacote encontrado (<code>show</code>, <code>install</code> e <code>uninstall</code> de um ID inexistente)</td><td><a href="erros-de-instalacao.html">Erros ao Instalar e Remover</a></td></tr>
+<tr><td><code>0x8A150014</code></td><td><code>-1978335212</code></td><td>nenhum pacote encontrado (<code>show</code>, <code>install</code> e <code>uninstall</code> de um ID inexistente; <code>list</code> de um pacote não instalado)</td><td><a href="erros-de-instalacao.html">Erros ao Instalar e Remover</a></td></tr>
 <tr><td><code>0x8A150017</code></td><td><code>-1978335209</code></td><td>versão inexistente (<code>--version 0.0.0.1</code>)</td><td><a href="versoes.html">Versões Disponíveis</a></td></tr>
 <tr><td><code>0x8A150029</code></td><td><code>-1978335191</code></td><td>manifesto com erro no <code>validate</code></td><td><a href="validar-manifesto.html">Validando Manifestos</a></td></tr>
+<tr><td><code>0x8A15002B</code></td><td><code>-1978335189</code></td><td>nenhuma atualização disponível (<code>upgrade</code> do jq já na última versão)</td><td><a href="atualizar.html">Atualizando</a></td></tr>
+<tr><td><code>0x8A15007D</code></td><td><code>-1978335107</code></td><td>remoção de pacote de escopo de usuário numa sessão de administrador</td><td><a href="desinstalar.html">Desinstalando</a></td></tr>
 </table></div>
-<p>Repare que o <code>winget show python</code> da aula <a href="mostrar.html">Detalhes de um Pacote</a> terminou com <code>0</code>: ele achou um pacote (só não era o que se esperava). Código zero quer dizer que o comando funcionou, não que fez o que você queria.</p>
+<p>Repare que o <code>winget show python</code> da aula <a href="mostrar.html">Detalhes de um Pacote</a> terminou com <code>0</code>: ele achou um pacote (só não era o que se esperava). Código zero quer dizer que o comando funcionou, não que fez o que você queria. O contrário também acontece: o <code>upgrade</code> sem nada para atualizar terminou com <code>0x8A15002B</code>, e o <code>list --upgrade-available</code> da mesma aula respondeu “Nenhum pacote instalado foi encontrado...” com código <code>0</code>. Leia o código e a mensagem juntos.</p>
 
 
 <hr>

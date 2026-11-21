@@ -26,9 +26,13 @@
 
 
 <h2>1. Está instalado?</h2>
+<p>Na primeira coleta, antes de instalar o jq:</p>
 <pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget list --id jqlang.jq --exact *&gt; $null; if ($LASTEXITCODE -eq 0) { 'jq está instalado' } else { 'jq não está instalado' }
 jq não está instalado</pre>
-<p>O <code>*&gt; $null</code> descarta toda a saída (normal e de erro); só o código interessa. No computador da coleta, o jq não estava instalado, e o <code>list</code> terminou com código diferente de zero.</p>
+<p>Na coleta do <a href="ciclo-completo.html">ciclo completo</a>, com o jq instalado (a remoção tinha falhado, aula <a href="desinstalar.html">Desinstalando</a>):</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget list --id jqlang.jq --exact *&gt; $null; if ($LASTEXITCODE -eq 0) { 'jq está instalado' } else { 'jq não está instalado' }
+jq está instalado</pre>
+<p>O <code>*&gt; $null</code> descarta toda a saída (normal e de erro); só o código interessa. Sem o jq, o <code>list</code> terminou com código diferente de zero; com ele, com <code>0</code>.</p>
 
 <h2>2. Instalar só se faltar</h2>
 <p>Juntando o teste com uma instalação segura (ID exato, fonte, escopo de usuário e sem perguntas):</p>
@@ -75,7 +79,7 @@ winget list --id jqlang.jq --exact *&gt; $null
 winget list --id jqlang.jq --exact *&gt; $null; if ($LASTEXITCODE -eq 0) { 'jq está instalado' } else { 'jq não está instalado' }
 </pre>
 <pre class="saida-ok" hidden>
-jq não está instalado
+jq está instalado
 </pre>
 </div>
 
