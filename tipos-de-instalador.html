@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tipos de Instalador | Guia winget</title>
+<meta name="description" content="Os tipos de instalador do winget (portable, msi, exe, inno, nullsoft, msix, zip): como descobrir pelo winget show e o que cada um significa.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Tipos de Instalador</h1>
+
+<p class="intro">Por trás de cada pacote existe um instalador, e o tipo dele muda tudo: onde o programa vai parar, se precisa de permissão de administrador e como ele sai do computador.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Achar o tipo de instalador no <code>winget show</code>.</li><li>Diferenciar <code>portable</code>, <code>msi</code>, <code>exe</code>, <code>inno</code>, <code>nullsoft</code>, <code>msix</code> e <code>zip</code>.</li><li>Por que o guia usa um pacote portable para testes.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. Comparando dois pacotes</h2>
+<p>O jq, que o guia usa como exemplo:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget show --id jqlang.jq --exact
+Encontrado jq [jqlang.jq]
+Versão: 1.8.2
+Fornecedor: jqlang
+URL do Fornecedor: https://github.com/jqlang
+URL de Suporte do Fornecedor: https://github.com/jqlang/jq/issues
+Moniker: jq
+Descrição: jq is a lightweight and flexible command-line JSON processor.
+Página inicial: https://github.com/jqlang/jq
+Licença: MIT License
+URL da licença: https://github.com/jqlang/jq/blob/master/COPYING
+Notas de Versão
+  This is a patch release with security fixes and bug fixes since 1.8.1, along with new builds for Windows arm64 and Docker arm/v7.
+  Security fixes
+  - CVE-2026-32316: Fix heap buffer overflow in jvp_string_append and jvp_string_copy_replace_bad. @itchyny e47e56d
+  - CVE-2026-33947: Limit path depth to prevent stack overflow in jv_setpath, jv_getpath, jv_delpaths. @itchyny fb59f14
+  - CVE-2026-33948: Fix NUL truncation in the JSON parser. @itchyny 6374ae0
+  - CVE-2026-39956: Fix _strindices missing runtime type checks. @tlsbollei fdf8ef0
+  - CVE-2026-39979: Fix out-of-bounds read in jv_parse_sized(). @wader 2f09060
+  - CVE-2026-40164: Randomize hash seed to mitigate hash collision DoS attacks. @AsafMeizner @itchyny 0c7d133
+  - CVE-2026-40612: Limit containment check depth to prevent stack overflow in contains. @itchyny d1a1256
+  - CVE-2026-41256: Fix NUL truncation in program files loaded with -f. @itchyny 5a015de
+  - CVE-2026-41257: Fix signed-int overflow in stack_reallocate. @itchyny 01b3cde
+  - CVE-2026-43894: Reject numeric literals longer than DEC_MAX_DIGITS (999999999). @itchyny 9761ceb
+  - CVE-2026-43895: Reject embedded NUL bytes in module import paths. @itchyny 9d223f1
+  - CVE-2026-43896: Limit recursive object merge depth to prevent stack overflow. @itchyny 532ccea
+  - CVE-2026-44777: Detect circular module imports to prevent stack overflow. @itchyny f58787c
+  - CVE-2026-47770: Guard deep structural equality and comparison recursion. @fuyu0425 7122866
+  - CVE-2026-49839: Fix heap-buffer-overflow in raw file loading. @itchyny e987df0
+  - CVE-2026-54679: Tighten string length bounds and propagate invalid jv in implode. @itchyny 46d1da3
+  - GHSA-gf4g-95wj-4q4r: Fix use-after-free in args2obj() array argument path. @sseal #3498
+  - GHSA-hj52-j2c9-r8r4: Fix signed-int overflow in tokenadd to prevent buffer overflow. @itchyny 63751f8
+  - Limit the number of function parameters and definitions to prevent SEGV. @OwenSanzas #3460
+  - Pre-allocate tokenbuf for string parser to avoid undefined behavior. @fab1ano #3485
+  - Avoid stack overflow when freeing deeply nested values. @itchyny 33d7bce
+  - Fix memory leaks and double frees. @itchyny #3487
+
+  Releasing
+  - Add builds for Windows arm64. @dennisameling #3376
+  - Support arm/v7 architecture in Docker images. @itchyny #3463
+  - Update GPG signing key. @itchyny 0ff997f
+  - Add artifact-metadata permission for actions/attest. @itchyny #3530
+  - Upload attestation bundle as a release artifact, allowing unauthenticated
+    verification via gh attestation verify --bundle jq-attestation.json.
+    @itchyny #3563
+
+  CLI changes
+  - Improve error message truncation with closing delimiters. @itchyny #3478
+  - Remove extra space from die function output. @krtk6160 #3391
+  - Fix raw input flag not to corrupt multi-byte characters. @itchyny #3421
+  - Fix crash when importing a module with errors twice. @itchyny #3497
+  - Increase the maximum printing depth from 256 to 10000. @ishnagy #3414
+
+  Changes to existing functions
+  - Fix rtrimstr("") always outputting "". @A4-Tacks #3415
+  - Fix infinite loop and undefined behavior in del(.[nan]). @itchyny #3490
+  - Refactor @uri and @urid to fix multi-byte UTF-8 corruption. @itchyny #3495
+  - Fix tonumber and toboolean to reject strings with embedded null bytes. @itchyny #3496
+  - Fix undefined behavior in modulo operator. @fab1ano #3486
+  - Fix reversed pointer subtraction in f_env bounds check. @itchyny #3465
+  - Fix missing validity check in f_strflocaltime after f_localtime. @itchyny #3491
+  - Fix year 2038 problem on 32-bit platforms. @itchyny #3407
+  - Use // instead of //= in from_entries definition. @itchyny #3516
+
+  Build and test changes
+  - Drop strptime test using non-portable %F. @alyssais #3365
+  - Limit oniguruma depth to 1024 in jq_fuzz_execute. @sudhackar #3377
+  - Fix localization test for time formatting functions. @itchyny #3409
+  - Fix expected value assertion. @itchyny #3431 #3408
+  - Fix typo in tests/jq.test. @bigmoonbit #3441
+  - Refactor tm2jv to handle fractional seconds. @itchyny #3489
+  - Fix jq_fuzz_parse_stream: use iterative parser API for streaming mode. @OwenSanzas #3499
+  - Fix crashes and resource leaks in jq_testsuite. @itchyny #3509
+  - Support building with --disable-maintainer-mode and source != build dir. @Saur2000 #3518
+  - Add Solaris support. @vlmarek #3515
+  - Respect SOURCE_DATE_EPOCH while generating man page. @McSinyx #3514
+  - Fix undefined pointer arithmetic in UTF-8 helpers. @theyoucheng df924ea
+  - Fix one-byte over-read in BASE64_DECODE_TABLE. @itchyny #3547
+
+  Documentation changes
+  - Add wiki link to navigation bar. @wader #3424
+  - Add missing word in manual for rawfile. @jpmens #3434
+  - Fix typo "stder" to "stderr". @jjatria #3446
+  - Fix buttons in tutorial to toggle labels when clicked on. @itchyny #3493
+  - Fix "happened" spelling in tutorial changelog entries. @Rohan5commit #3525
+URL de Notas de Versão: https://github.com/jqlang/jq/releases/tag/jq-1.8.2
+Marcas: jq
+Instaladora:
+  Tipo de instalador: portable
+  URL do instalador: https://github.com/jqlang/jq/releases/download/jq-1.8.2/jq-windows-amd64.exe
+  Instalador SHA256: a6fc67fedaf9128a3309a1e2ebb8b986aeccf70122ee46d2cb4849e423f0c627
+  Data do Lançamento: 2026-06-20
+  Distribuição Offline Com Suporte: true</pre>
+<p>E o 7-Zip, um programa com instalador tradicional:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget show --id 7zip.7zip --exact
+Encontrado 7-Zip [7zip.7zip]
+Versão: 26.06
+Fornecedor: Igor Pavlov
+URL do Fornecedor: https://7-zip.org/
+URL de Suporte do Fornecedor: https://7-zip.org/support.html
+Autor: Igor Pavlov
+Moniker: 7zip
+Descrição: A file archiver with a high compression ratio.
+Página inicial: https://7-zip.org/download.html
+Licença: LGPL-2.1
+URL da licença: https://7-zip.org/license.txt
+Copyright: Copyright © 1999-2026 Igor Pavlov.
+Notas de Versão
+  - Improved support for split files created by "split" utility in Linux.
+  - Some bugs and vulnerabilities were fixed.
+URL de Notas de Versão: https://github.com/ip7z/7zip/releases/tag/26.06
+Documentação:
+  FAQ: https://7-zip.org/faq.html
+Marcas:
+  7zfiles
+  archive
+  archiver
+  compress
+  compression
+  decompress
+  decompression
+  extract
+  extractor
+  rarfiles
+  targzfiles
+  unarchive
+  unarchiver
+  unzip
+  zip
+Instaladora:
+  Tipo de instalador: wix
+  URL do instalador: https://github.com/ip7z/7zip/releases/download/26.06/7z2606-x64.msi
+  Instalador SHA256: 6dc822569e777d9a3ecd5ffcbc22b55600af87e6c5d9810a64e8566cf5a4af9f
+  Data do Lançamento: 2026-11-07
+  Distribuição Offline Com Suporte: true</pre>
+<p>Procure em cada saída a parte <code>Instaladora</code>: o <code>Tipo de instalador</code> do jq é <code>portable</code> (a URL aponta para um <code>.exe</code> solto); o do 7-Zip é <code>wix</code>, e a URL termina em <code>.msi</code>.</p>
+
+<h2>2. Os tipos mais comuns</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Tipo</th><th>O que é</th></tr>
+<tr><td><code>portable</code></td><td>um executável solto; o winget copia para uma pasta da sua conta e cria um atalho. Não roda instalador.</td></tr>
+<tr><td><code>zip</code></td><td>um arquivo compactado com um instalador ou um portable dentro.</td></tr>
+<tr><td><code>msi</code> / <code>wix</code></td><td>o instalador padrão do Windows (Windows Installer); <code>wix</code> é um <code>.msi</code> feito com a ferramenta WiX, como o do 7-Zip.</td></tr>
+<tr><td><code>exe</code>, <code>inno</code>, <code>nullsoft</code>, <code>burn</code></td><td>instaladores executáveis; o winget conhece as opções silenciosas de cada família.</td></tr>
+<tr><td><code>msix</code> / <code>appx</code></td><td>pacotes modernos do Windows.</td></tr>
+<tr><td><code>msstore</code></td><td>aplicativo da Microsoft Store, instalado pela própria loja (veja a ficha do Python Install Manager em <a href="mostrar.html">Detalhes de um Pacote</a>).</td></tr>
+</table></div>
+
+<div class="tip"><strong>Por que o jq?</strong><p>O jq é um único executável <code>portable</code>, e portáteis instalados sem administrador ficam na sua pasta de usuário (o <code>winget --info</code> mostra a pasta <code>Raiz do Pacote Portátil (Usuário)</code>): instalar e remover não mexe no resto do sistema. Por isso ele é o exemplo principal deste guia.</p></div>
+
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="mc" data-answer="1"><p class="mc-q">1. Qual tipo de instalador é só um executável copiado para uma pasta, sem instalador?</p>
+<label><input type="radio" name="q1"> <code>msi</code></label>
+<label><input type="radio" name="q1"> <code>portable</code></label>
+<label><input type="radio" name="q1"> <code>msix</code></label></div>
+
+<div class="trycmd" data-goal="src:--id\s+7zip\.7zip;;src:--exact\b|\s-e\b;;outre:\[7zip\.7zip\]">
+<p class="try-task"><strong>Missão:</strong> Mostre os detalhes do pacote <code>7zip.7zip</code> com ID exato e compare o tipo de instalador com o do jq.</p>
+<pre class="script">
+winget show --id
+</pre>
+<pre class="solucao">
+winget show --id 7zip.7zip --exact
+</pre>
+<pre class="saida-ok" hidden>
+Encontrado 7-Zip [7zip.7zip]
+Versão: 26.06
+Fornecedor: Igor Pavlov
+URL do Fornecedor: https://7-zip.org/
+URL de Suporte do Fornecedor: https://7-zip.org/support.html
+Autor: Igor Pavlov
+Moniker: 7zip
+Descrição: A file archiver with a high compression ratio.
+Página inicial: https://7-zip.org/download.html
+Licença: LGPL-2.1
+URL da licença: https://7-zip.org/license.txt
+Copyright: Copyright © 1999-2026 Igor Pavlov.
+Notas de Versão
+  - Improved support for split files created by "split" utility in Linux.
+  - Some bugs and vulnerabilities were fixed.
+URL de Notas de Versão: https://github.com/ip7z/7zip/releases/tag/26.06
+Documentação:
+  FAQ: https://7-zip.org/faq.html
+Marcas:
+  7zfiles
+  archive
+  archiver
+  compress
+  compression
+  decompress
+  decompression
+  extract
+  extractor
+  rarfiles
+  targzfiles
+  unarchive
+  unarchiver
+  unzip
+  zip
+Instaladora:
+  Tipo de instalador: wix
+  URL do instalador: https://github.com/ip7z/7zip/releases/download/26.06/7z2606-x64.msi
+  Instalador SHA256: 6dc822569e777d9a3ecd5ffcbc22b55600af87e6c5d9810a64e8566cf5a4af9f
+  Data do Lançamento: 2026-11-07
+  Distribuição Offline Com Suporte: true
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li>O tipo de instalador aparece no <code>winget show</code>.</li>
+<li><code>portable</code> é o mais simples de instalar e remover.</li>
+<li><code>msi</code>, <code>exe</code> e companhia rodam um instalador de verdade.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validando Manifestos (validate) | Guia winget</title>
+<meta name="description" content="Como conferir um manifesto YAML com winget validate antes de publicar, com a saída de um manifesto correto e de um com erros.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Validando Manifestos (<code>validate</code>)</h1>
+
+<p class="intro">Antes de enviar um manifesto para o repositório, confira-o na sua máquina. O <code>validate</code> lê o arquivo e aponta campos faltando, valores inválidos e formatos errados.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Validar um manifesto correto.</li><li>Ler os erros de um manifesto com problemas.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. Manifesto correto</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana\AppData\Local\Temp\guia-winget&gt; winget validate --manifest manifesto-ok\Exemplo.Ola.yaml
+Êxito na validação do manifesto.</pre>
+<p>Uma linha: <code>Êxito na validação do manifesto.</code> e código de saída <code>0</code>.</p>
+
+<h2>2. Manifesto com erros</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana\AppData\Local\Temp\guia-winget&gt; winget validate --manifest manifesto-erro\Exemplo.Ola.yaml
+Falha na validação do manifesto.
+Manifest Error: Required field missing. [PackageVersion] File: Exemplo.Ola.yaml</pre>
+<p>A primeira linha diz que a validação falhou; a segunda, ainda em inglês, aponta o problema: <code>Required field missing. [PackageVersion]</code> (campo obrigatório ausente) e o arquivo. O código de saída foi <code>0x8A150029</code>.</p>
+<p>Repare no que ele <strong>não</strong> disse: o manifesto também tem o tipo <code>portatil</code> e um hash de 4 caracteres (aula <a href="manifestos.html">Manifestos YAML</a>), e nada disso apareceu. Por esta saída não dá para saber se o winget apontaria esses erros numa segunda rodada; por isso, corrija o que ele mostrou e valide de novo, até aparecer a mensagem de êxito.</p>
+
+<div class="tip"><strong>Só confere o arquivo</strong><p>O <code>validate</code> não baixa o instalador nem testa a instalação: ele confere o formato do YAML e as regras do esquema.</p></div>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>winget validate --manifest arquivo.yaml</code></td><td>confere um manifesto</td></tr>
+<tr><td><code>winget validate --manifest pasta</code></td><td>confere um manifesto em vários arquivos</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Validar</h3><p>Complete a opção que aponta o manifesto.</p><div class="ex-code">winget validate --<input data-answer="manifest" aria-label="resposta"> Exemplo.Ola.yaml</div></div>
+
+<div class="trycmd" data-goal="src:\bvalidate\b;;src:--manifest\s+\S*Exemplo\.Ola\.yaml;;outre:^(Êxito na validação do manifesto|Manifest validation succeeded)\.">
+<p class="try-task"><strong>Missão:</strong> Valide um manifesto seu chamado <code>Exemplo.Ola.yaml</code> dentro da pasta <code>manifesto-ok</code>.</p>
+<pre class="script">
+winget validate
+</pre>
+<pre class="solucao">
+winget validate --manifest manifesto-ok\Exemplo.Ola.yaml
+</pre>
+<pre class="saida-ok" hidden>
+Êxito na validação do manifesto.
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>validate</code> confere o manifesto antes de publicar.</li>
+<li>O erro aponta o campo; nem todo erro aparece de uma vez, então corrija e valide de novo até dar êxito.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

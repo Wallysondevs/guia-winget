@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tags, Monikers e Comandos | Guia winget</title>
+<meta name="description" content="Buscas especiais do winget: --tag (etiquetas), --moniker (apelido curto) e --command (o comando que o pacote instala).">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Tags, Monikers e Comandos</h1>
+
+<p class="intro">Além do nome e do ID, cada pacote tem etiquetas (<em>tags</em>), às vezes um apelido curto (<em>moniker</em>) e a lista dos comandos que ele instala. Dá para buscar por cada um.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Achar pacotes por assunto com <code>--tag</code>.</li><li>Usar o apelido curto com <code>--moniker</code>.</li><li>Descobrir qual pacote instala um comando com <code>--command</code>.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. Por assunto: <code>--tag</code></h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search --tag json --count 8
+Nome                                        ID                                  Versão        Correspondência Origem
+--------------------------------------------------------------------------------------------------------------------
+Pinny Notes                                 63BeetleSmurf.PinnyNotes            1.17.0        Tag: json       winget
+DevMate                                     ADELA.Devmate                       0.1.6         Tag: json       winget
+Altova MissionKit 2023 Enterprise Edition   Altova.MissionKit.2023.Enterprise   2023.02.00.05 Tag: json       winget
+Altova MissionKit 2023 Professional Edition Altova.MissionKit.2023.Professional 2023.02.00.05 Tag: json       winget
+Altova MissionKit 2024 Enterprise Edition   Altova.MissionKit.2024.Enterprise   2024.02.01    Tag: json       winget
+Altova MissionKit 2024 Professional Edition Altova.MissionKit.2024.Professional 2024.02.01    Tag: json       winget
+Altova MissionKit 2025 Enterprise Edition   Altova.MissionKit.2025.Enterprise   2025.02.00.07 Tag: json       winget
+Altova MissionKit 2025 Professional Edition Altova.MissionKit.2025.Professional 2025.02.00.07 Tag: json       winget
+&lt;entradas adicionais truncadas devido ao limite de resultado&gt;</pre>
+<p>Etiquetas são palavras que quem publicou o pacote escolheu para descrevê-lo, como <code>json</code>, <code>cli</code> ou <code>editor</code> (no <code>winget show</code>, elas aparecem como <code>Marcas</code>). A correspondência <code>Tag: json</code> confirma por que cada pacote veio. Ótimo para descobrir ferramentas de um assunto.</p>
+
+<h2>2. Pelo apelido: <code>--moniker</code></h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search --moniker jq
+Nome  ID                Versão Correspondência Origem
+-----------------------------------------------------
+jq    jqlang.jq         1.8.2  Moniker: jq     winget
+ajq   RicardoCabral.ajq 0.1.5  Moniker: ajq    winget
+jqweb zafnz.jqweb       0.9.0  Moniker: jqweb  winget</pre>
+<p>O moniker é um apelido curto que alguns pacotes têm (o do jq é <code>jq</code>, como mostra a correspondência <code>Moniker: jq</code>). Sem <code>--exact</code>, a busca aceita pedaços, então vieram também <code>ajq</code> e <code>jqweb</code>; com <code>--exact</code>, só o apelido idêntico.</p>
+
+<h2>3. Pelo comando: <code>--command</code></h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search --command jq
+Nome ID        Versão Correspondência Origem
+--------------------------------------------
+jq   jqlang.jq 1.8.2  Command: jq     winget</pre>
+<p>Útil quando um tutorial manda rodar um comando que você não tem: a correspondência <code>Command: jq</code> diz que o pacote <code>jqlang.jq</code> instala o comando <code>jq</code>.</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>--tag json</code></td><td>pacotes com a etiqueta json</td></tr>
+<tr><td><code>--moniker jq</code></td><td>pacote com o apelido jq</td></tr>
+<tr><td><code>--command jq</code></td><td>pacotes que instalam o comando jq</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="mc" data-answer="0"><p class="mc-q">1. Um tutorial manda rodar <code>jq</code>, mas o comando não existe no seu Windows. Qual busca ajuda?</p>
+<label><input type="radio" name="q1"> <code>winget search --command jq</code></label>
+<label><input type="radio" name="q1"> <code>winget --info</code></label>
+<label><input type="radio" name="q1"> <code>winget source list</code></label></div>
+
+<div class="trycmd" data-goal="src:--tag\s+json\b;;src:(--count|-n)\s+8\b;;out:Tag: json">
+<p class="try-task"><strong>Missão:</strong> Procure pacotes com a etiqueta <code>json</code>, no máximo 8.</p>
+<pre class="script">
+winget search
+</pre>
+<pre class="solucao">
+winget search --tag json --count 8
+</pre>
+<pre class="saida-ok" hidden>
+Nome                                        ID                                  Versão        Correspondência Origem
+--------------------------------------------------------------------------------------------------------------------
+Pinny Notes                                 63BeetleSmurf.PinnyNotes            1.17.0        Tag: json       winget
+DevMate                                     ADELA.Devmate                       0.1.6         Tag: json       winget
+Altova MissionKit 2023 Enterprise Edition   Altova.MissionKit.2023.Enterprise   2023.02.00.05 Tag: json       winget
+Altova MissionKit 2023 Professional Edition Altova.MissionKit.2023.Professional 2023.02.00.05 Tag: json       winget
+Altova MissionKit 2024 Enterprise Edition   Altova.MissionKit.2024.Enterprise   2024.02.01    Tag: json       winget
+Altova MissionKit 2024 Professional Edition Altova.MissionKit.2024.Professional 2024.02.01    Tag: json       winget
+Altova MissionKit 2025 Enterprise Edition   Altova.MissionKit.2025.Enterprise   2025.02.00.07 Tag: json       winget
+Altova MissionKit 2025 Professional Edition Altova.MissionKit.2025.Professional 2025.02.00.07 Tag: json       winget
+&lt;entradas adicionais truncadas devido ao limite de resultado&gt;
+</pre>
+</div>
+
+<div class="trycmd" data-goal="src:--moniker\s+jq\b;;outre:jqlang\.jq">
+<p class="try-task"><strong>Missão:</strong> Procure o pacote cujo moniker é <code>jq</code>.</p>
+<pre class="script">
+winget search jq
+</pre>
+<pre class="solucao">
+winget search --moniker jq
+</pre>
+<pre class="saida-ok" hidden>
+Nome  ID                Versão Correspondência Origem
+-----------------------------------------------------
+jq    jqlang.jq         1.8.2  Moniker: jq     winget
+ajq   RicardoCabral.ajq 0.1.5  Moniker: ajq    winget
+jqweb zafnz.jqweb       0.9.0  Moniker: jqweb  winget
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>--tag</code> busca por assunto.</li>
+<li><code>--moniker</code> usa o apelido curto.</li>
+<li><code>--command</code> mostra qual pacote instala um comando.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+/* Guia CMD: modo "Rode no Prompt de Comando" (assets/rode-local.js) */
+.trycmd {
+  margin: 22px 0;
+  padding: 4px 18px 14px;
+  border: 2px dashed var(--accent);
+  border-radius: 10px;
+  min-width: 0;
+}
+.cmf-aviso {
+  margin: 6px 0 10px;
+  padding: 8px 12px;
+  border-left: 4px solid var(--note-border);
+  background: var(--note-bg);
+  font-size: 14.5px;
+}
+.cmf .ts-editor { border-radius: 0 0 8px 8px; }
+.cmf .ts-code { overflow-x: auto; }
+.cmf-rot { display: block; margin: 12px 0 4px; font-weight: 600; }
+.cmf-out {
+  display: block; width: 100%; box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--out-bg);
+  color: var(--out-text);
+  font: 14px/1.5 "Ubuntu Mono", ui-monospace, Menlo, Consolas, monospace;
+  white-space: pre;
+  resize: vertical;
+}
+.cmf-out:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.cmf-acoes { margin-top: 10px; }
+.cmf-acoes button:disabled { opacity: .55; cursor: not-allowed; }
+.cmf-res .ex-result { margin: 6px 0; }
+.cmf-metas { margin: 8px 0 4px; padding-left: 0; list-style: none; }
+.cmf-metas li { margin: 2px 0; }
+.cmf-metas li.ok .cmf-sinal { color: var(--ok); font-weight: 700; }
+.cmf-metas li.bad .cmf-sinal { color: var(--bad); font-weight: 700; }
+.cmf-metas li.manual { color: var(--muted); }
+.cmf-falha { color: var(--bad); }
+.cmf .sim-sol { margin: 10px 0 4px; }
+.cmf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 600px) { .trycmd { padding: 4px 10px 12px; } }
+@media print { .cmf-acoes, .cmf-out, .cmf-rot, .ts-bar { display: none !important; } }
+
+.cmf-passos{margin:.4rem 0 .6rem 1.2rem;padding:0;font-size:.95em}
+.cmf-passos li{margin:.15rem 0}

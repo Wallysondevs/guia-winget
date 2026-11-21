@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informações do winget (--info) | Guia winget</title>
+<meta name="description" content="O que winget --info mostra: versão, Windows, arquitetura, pastas de logs e configurações, pastas de pacotes portáteis e links úteis.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Informações do winget (<code>--info</code>)</h1>
+
+<p class="intro">Quando algo não funciona, a primeira pergunta é: qual winget, em qual Windows, guardando as coisas onde? A opção <code>--info</code> responde tudo de uma vez.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Rodar <code>winget --info</code> e ler cada parte.</li><li>Onde ficam os logs e o arquivo de configurações.</li><li>Onde os pacotes portáteis são instalados.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. O comando</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget --info
+Gerenciador de Pacotes do Windows v1.29.380
+© 2026 Microsoft. Todos os direitos reservados.
+
+Windows: Windows.Desktop v10.0.19045.6466
+Arquitetura do Sistema: X64
+Pacote: Microsoft.DesktopAppInstaller v1.29.380.0
+
+Diretórios do WinGet
+--------------------------------------------------------------------------------------------------------------------------------------
+Registros                                 %LOCALAPPDATA%\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\DiagOutputDir
+Configurações do Usuário                  %LOCALAPPDATA%\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json
+Diretório de Links Portáteis (Usuário)    %LOCALAPPDATA%\Microsoft\WinGet\Links
+Diretório de Links Portáteis (Computador) C:\Program Files\WinGet\Links
+Raiz do Pacote Portátil (Usuário)         %LOCALAPPDATA%\Microsoft\WinGet\Packages
+Raiz do Pacote Portátil                   C:\Program Files\WinGet\Packages
+Raiz do Pacote Portátil (x86)             C:\Program Files (x86)\WinGet\Packages
+Downloads do Instalador                   %USERPROFILE%\Downloads
+Módulos de Configuração                   %LOCALAPPDATA%\Microsoft\WinGet\Configuration\Modules
+
+Links
+-------------------------------------------------------------------------------
+Política de Privacidade https://aka.ms/winget-privacy
+Contrato de Licença     https://aka.ms/winget-license
+Avisos de Terceiros     https://aka.ms/winget-3rdPartyNotice
+Home page               https://aka.ms/winget
+Termos da Windows Store https://www.microsoft.com/en-us/storedocs/terms-of-sale
+
+Configuração do Administrador             Estado
+------------------------------------------------------
+LocalManifestFiles                        Desabilitado
+BypassCertificatePinningForMicrosoftStore Desabilitado
+InstallerHashOverride                     Desabilitado
+LocalArchiveMalwareScanOverride           Desabilitado
+ProxyCommandLineOptions                   Desabilitado
+ConfigurationProcessorPath                Desabilitado
+DefaultProxy                              Desabilitado</pre>
+<p>A saída é um relatório com várias partes (no Windows em português, com os títulos em português):</p>
+<ul>
+<li><strong>a versão do winget</strong> na primeira linha e, mais abaixo, a do pacote do Instalador de Aplicativo (<code>Microsoft.DesktopAppInstaller</code>);</li>
+<li><strong>o Windows</strong> (<code>Windows.Desktop</code> e o número da compilação) e a <strong>arquitetura do sistema</strong> (<code>X64</code>);</li>
+<li><strong>Diretórios do WinGet</strong>: onde ficam os registros (logs), as configurações do usuário, os links e as pastas dos pacotes portáteis, a pasta dos downloads e a dos módulos de configuração;</li>
+<li><strong>Links</strong> para a política de privacidade, a licença, os avisos de terceiros e a página do projeto;</li>
+<li><strong>Configuração do Administrador</strong>: ajustes que só um administrador muda, todos <code>Desabilitado</code> aqui.</li>
+</ul>
+<p>Repare nos caminhos: alguns aparecem com variáveis do Windows, como <code>%LOCALAPPDATA%</code>, que o próprio Windows troca pela pasta certa da sua conta.</p>
+
+<h2>2. Para que serve na prática</h2>
+<ul>
+<li>Ao pedir ajuda num fórum, cole a parte de versão e sistema (confira antes se não há nada pessoal).</li>
+<li>Para achar os logs depois de uma instalação que falhou.</li>
+<li>Para saber onde o winget põe os programas portáteis e o atalho deles (as linhas <code>Raiz do Pacote Portátil</code> e <code>Diretório de Links Portáteis</code>).</li>
+</ul>
+
+
+<hr>
+<h2 id="errado">Quando dá errado</h2>
+
+<p>O <code>--info</code> não costuma falhar. Se ele mostrar uma versão bem mais antiga do que você esperava, o Instalador de Aplicativo não está sendo atualizado: veja <a href="instalar-e-versao.html">Instalação e Versão</a>.</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>winget --info</code></td><td>versão, sistema, pastas e links</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="mc" data-answer="1"><p class="mc-q">1. O que <code>%LOCALAPPDATA%</code> significa num caminho?</p>
+<label><input type="radio" name="q1"> Uma pasta que não existe</label>
+<label><input type="radio" name="q1"> Uma variável que o Windows troca pela pasta de dados locais da sua conta</label>
+<label><input type="radio" name="q1"> O disco D:</label></div>
+
+<div class="trycmd" data-goal="src:--info\b;;outre:v\d+\.\d+">
+<p class="try-task"><strong>Missão:</strong> Mostre as informações completas do winget (versão, sistema e pastas).</p>
+<pre class="script">
+winget --
+</pre>
+<pre class="solucao">
+winget --info
+</pre>
+<pre class="saida-ok" hidden>
+Gerenciador de Pacotes do Windows v1.29.380
+© 2026 Microsoft. Todos os direitos reservados.
+
+Windows: Windows.Desktop v10.0.19045.6466
+Arquitetura do Sistema: X64
+Pacote: Microsoft.DesktopAppInstaller v1.29.380.0
+
+Diretórios do WinGet
+--------------------------------------------------------------------------------------------------------------------------------------
+Registros                                 %LOCALAPPDATA%\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\DiagOutputDir
+Configurações do Usuário                  %LOCALAPPDATA%\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json
+Diretório de Links Portáteis (Usuário)    %LOCALAPPDATA%\Microsoft\WinGet\Links
+Diretório de Links Portáteis (Computador) C:\Program Files\WinGet\Links
+Raiz do Pacote Portátil (Usuário)         %LOCALAPPDATA%\Microsoft\WinGet\Packages
+Raiz do Pacote Portátil                   C:\Program Files\WinGet\Packages
+Raiz do Pacote Portátil (x86)             C:\Program Files (x86)\WinGet\Packages
+Downloads do Instalador                   %USERPROFILE%\Downloads
+Módulos de Configuração                   %LOCALAPPDATA%\Microsoft\WinGet\Configuration\Modules
+
+Links
+-------------------------------------------------------------------------------
+Política de Privacidade https://aka.ms/winget-privacy
+Contrato de Licença     https://aka.ms/winget-license
+Avisos de Terceiros     https://aka.ms/winget-3rdPartyNotice
+Home page               https://aka.ms/winget
+Termos da Windows Store https://www.microsoft.com/en-us/storedocs/terms-of-sale
+
+Configuração do Administrador             Estado
+------------------------------------------------------
+LocalManifestFiles                        Desabilitado
+BypassCertificatePinningForMicrosoftStore Desabilitado
+InstallerHashOverride                     Desabilitado
+LocalArchiveMalwareScanOverride           Desabilitado
+ProxyCommandLineOptions                   Desabilitado
+ConfigurationProcessorPath                Desabilitado
+DefaultProxy                              Desabilitado
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>winget --info</code> junta versão, sistema, arquitetura, pastas e links.</li>
+<li>É o primeiro comando a rodar quando algo dá errado.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

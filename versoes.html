@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Versões Disponíveis (--versions) | Guia winget</title>
+<meta name="description" content="Como listar as versões de um pacote com winget show --versions e pedir os detalhes de uma versão específica com --version.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Versões Disponíveis (<code>--versions</code>)</h1>
+
+<p class="intro">O catálogo guarda mais de uma versão de muitos pacotes. Saber quais existem ajuda a instalar uma versão específica ou a voltar para uma anterior.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Listar as versões com <code>--versions</code>.</li><li>Pedir uma versão com <code>--version</code>.</li><li>Entender o erro de versão inexistente.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. Listando as versões</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget show --id jqlang.jq --exact --versions
+Encontrado jq [jqlang.jq]
+Versão
+------
+1.8.2
+1.8.1
+1.8.0
+1.7.1
+1.7
+1.6</pre>
+<p>A resposta confirma o pacote e lista as versões que o catálogo conhece, da mais recente (<code>1.8.2</code>) para a mais antiga (<code>1.6</code>).</p>
+
+<h2>2. <code>--versions</code> e <code>--version</code></h2>
+<dl class="anatomy">
+<dt>--versions</dt><dd>(no plural) lista as versões disponíveis.</dd>
+<dt>--version 1.8.1</dt><dd>(no singular, com um número) escolhe uma versão para <code>show</code>, <code>install</code> ou <code>download</code>.</dd>
+</dl>
+
+
+<hr>
+<h2 id="errado">Quando dá errado</h2>
+
+<p>Pedir uma versão que não está no catálogo:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget show --id jqlang.jq --exact --version 0.0.0.1
+Nenhuma versão correspondente foi encontrada: 0.0.0.1</pre>
+<p>A mensagem repete o número pedido. Use <code>--versions</code> para ver as que existem e copie o número exatamente como aparece.</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>--versions</code></td><td>lista as versões</td></tr>
+<tr><td><code>-v</code>, <code>--version X</code></td><td>usa a versão X</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Plural ou singular?</h3><p>Complete para <em>listar</em> as versões do jq.</p><div class="ex-code">winget show --id jqlang.jq --exact <input data-answer="--versions" aria-label="resposta"></div></div>
+
+<div class="trycmd" data-goal="src:--versions\b;;outre:^\s*\d+\.\d+">
+<p class="try-task"><strong>Missão:</strong> Liste as versões disponíveis do pacote <code>jqlang.jq</code>.</p>
+<pre class="script">
+winget show --id jqlang.jq --exact
+</pre>
+<pre class="solucao">
+winget show --id jqlang.jq --exact --versions
+</pre>
+<pre class="saida-ok" hidden>
+Encontrado jq [jqlang.jq]
+Versão
+------
+1.8.2
+1.8.1
+1.8.0
+1.7.1
+1.7
+1.6
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>--versions</code> lista; <code>--version X</code> escolhe.</li>
+<li>Versão inexistente: confira a lista e copie o número exato.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

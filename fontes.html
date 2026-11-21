@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fontes (source list e export) | Guia winget</title>
+<meta name="description" content="As fontes do winget: winget e msstore, como listá-las com winget source list, ver os detalhes de uma com --name e exportar com source export.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Fontes (<code>source list</code> e <code>export</code>)</h1>
+
+<p class="intro">Toda busca, ficha e instalação vem de uma fonte. Saber quais fontes o seu winget usa é saber em quem ele confia.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Listar as fontes com <code>winget source list</code>.</li><li>Ver os detalhes de uma fonte com <code>--name</code>.</li><li>Exportar a configuração das fontes com <code>source export</code>.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. Quais fontes existem</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget source list
+Nome        Argumento                                     Especificado explicitamente
+-------------------------------------------------------------------------------------
+msstore     https://storeedgefd.dsx.mp.microsoft.com/v9.0 false
+winget      https://cdn.winget.microsoft.com/cache        false
+winget-font https://cdn.winget.microsoft.com/fonts        true</pre>
+<p>Apareceram três fontes: <code>msstore</code> (a Microsoft Store), <code>winget</code> (o repositório comunitário, com manifestos revisados publicamente no GitHub) e <code>winget-font</code> (um catálogo de fontes tipográficas, da mesma origem). Cada linha traz o nome, o <code>Argumento</code> (o endereço do catálogo) e se ela foi <code>Especificado explicitamente</code>: <code>true</code> na <code>winget-font</code>, o que indica que ela não entra numa busca comum, só quando pedida pelo nome.</p>
+
+<h2>2. Detalhes de uma fonte</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget source list --name winget
+Campo                       Valor
+------------------------------------------------------------------
+Nome                        winget
+Digitar                     Microsoft.PreIndexed.Package
+Argumento                   https://cdn.winget.microsoft.com/cache
+Dados                       Microsoft.Winget.Source_8wekyb3d8bbwe
+Identificador               Microsoft.Winget.Source_8wekyb3d8bbwe
+Nível de Confiança          Trusted|StoreOrigin
+Especificado explicitamente false
+Atualizada                  2026-11-21 12:49:22.000</pre>
+<p>Com <code>--name</code>, o winget mostra a ficha da fonte em formato <code>Campo</code> / <code>Valor</code>: o tipo (no campo que a tradução chamou de <code>Digitar</code>, do inglês <em>Type</em>), o endereço, o <code>Nível de Confiança</code> (<code>Trusted|StoreOrigin</code>) e o campo <code>Atualizada</code>, com a data e hora em que o índice foi atualizado pela última vez (o winget atualiza esse índice sozinho; aqui, no momento da coleta).</p>
+
+<h2>3. Exportando</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget source export
+{"Arg":"https://storeedgefd.dsx.mp.microsoft.com/v9.0","Data":"","Explicit":false,"Identifier":"StoreEdgeFD","Name":"msstore","TrustLevel":["Trusted"],"Type":"Microsoft.Rest"}
+{"Arg":"https://cdn.winget.microsoft.com/cache","Data":"Microsoft.Winget.Source_8wekyb3d8bbwe","Explicit":false,"Identifier":"Microsoft.Winget.Source_8wekyb3d8bbwe","Name":"winget","TrustLevel":["Trusted","StoreOrigin"],"Type":"Microsoft.PreIndexed.Package"}
+{"Arg":"https://cdn.winget.microsoft.com/fonts","Data":"Microsoft.Winget.Fonts.Source_8wekyb3d8bbwe","Explicit":true,"Identifier":"Microsoft.Winget.Fonts.Source_8wekyb3d8bbwe","Name":"winget-font","TrustLevel":["Trusted","StoreOrigin"],"Type":"Microsoft.PreIndexed.Package"}</pre>
+<p>O <code>export</code> imprime cada fonte como um objeto JSON numa linha, com os mesmos dados em inglês (<code>Name</code>, <code>Arg</code>, <code>Type</code>, <code>TrustLevel</code>, <code>Explicit</code>), um formato que scripts e outras ferramentas leem com facilidade.</p>
+
+<div class="warning"><strong>Fontes alteram a confiança</strong><p><code>winget source add</code>, <code>remove</code> e <code>reset</code> mudam de onde os pacotes vêm e pedem terminal de administrador. Uma fonte desconhecida pode servir qualquer coisa. Este guia só lê as fontes, nunca as altera.</p></div>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>winget source list</code></td><td>lista as fontes</td></tr>
+<tr><td><code>winget source list --name winget</code></td><td>detalhes de uma fonte</td></tr>
+<tr><td><code>winget source export</code></td><td>fontes em JSON</td></tr>
+<tr><td><code>winget source update</code></td><td>força a atualização do índice</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="mc" data-answer="1"><p class="mc-q">1. Qual fonte é a Microsoft Store?</p>
+<label><input type="radio" name="q1"> <code>winget</code></label>
+<label><input type="radio" name="q1"> <code>msstore</code></label>
+<label><input type="radio" name="q1"> <code>winget-font</code></label></div>
+
+<div class="trycmd" data-goal="src:\bsource\s+list\b;;outre:\bmsstore\b">
+<p class="try-task"><strong>Missão:</strong> Liste as fontes configuradas no seu winget.</p>
+<pre class="script">
+winget source
+</pre>
+<pre class="solucao">
+winget source list
+</pre>
+<pre class="saida-ok" hidden>
+Nome        Argumento                                     Especificado explicitamente
+-------------------------------------------------------------------------------------
+msstore     https://storeedgefd.dsx.mp.microsoft.com/v9.0 false
+winget      https://cdn.winget.microsoft.com/cache        false
+winget-font https://cdn.winget.microsoft.com/fonts        true
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>winget</code> e <code>msstore</code> são as fontes que as buscas usam; <code>winget-font</code> só entra quando pedida.</li>
+<li><code>source list</code> lista; <code>--name</code> detalha; <code>export</code> gera JSON.</li>
+<li>Adicionar ou remover fontes muda em quem você confia.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

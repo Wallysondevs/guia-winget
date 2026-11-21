@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O que é o winget | Guia winget</title>
+<meta name="description" content="O que é o winget, o gerenciador de pacotes oficial do Windows: para que serve, de onde vêm os pacotes e o que este guia ensina.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>O que é o winget</h1>
+
+<p class="intro">O <strong>winget</strong> é o gerenciador de pacotes oficial do Windows: um programa de linha de comando que procura, instala, atualiza e remove outros programas por você, sem abrir site, sem baixar instalador na mão e sem clicar em “Avançar” cinco vezes.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>O que é um gerenciador de pacotes e por que ele economiza tempo.</li><li>De onde vêm os pacotes do winget (as <em>fontes</em>).</li><li>O que muda entre instalar pelo site e instalar pelo winget.</li><li>Como este guia está organizado.</li></ul></div>
+
+<div class="note"><strong>Sobre esta aula.</strong> Esta aula não mostra saídas de comandos: é só explicação. As aulas com exemplos trazem a resposta exata do winget rodando no Windows de verdade, colhida por um script e com nomes trocados (computador <code>NOTEBOOK</code>, usuária fictícia <code>ana</code>).</div>
+
+
+<h2>1. O problema que ele resolve</h2>
+<p>Pense no jeito tradicional de instalar um programa no Windows: abrir o navegador, procurar o site oficial (torcendo para não cair num site falso), achar o botão de download certo para o seu sistema, baixar, executar o instalador e responder às perguntas dele. Para atualizar, você repete tudo meses depois, se lembrar.</p>
+<p>Um <strong>gerenciador de pacotes</strong> troca esse ritual por um comando. Ele mantém um catálogo com o nome de cada programa, onde baixar o instalador, a versão mais recente e um <strong>hash</strong> (uma impressão digital do arquivo) para conferir que o download não foi adulterado. Linux e macOS usam isso há anos (<code>apt</code>, <code>dnf</code>, <code>brew</code>); no Windows, a ferramenta oficial é o winget.</p>
+
+<h2>2. Pacote, ID e fonte</h2>
+<dl class="anatomy">
+<dt>pacote</dt><dd>um programa no catálogo, com nome, editor, versões e instaladores.</dd>
+<dt>ID</dt><dd>o nome único do pacote, no formato <code>Editor.Programa</code> (por exemplo, <code>jqlang.jq</code> ou <code>7zip.7zip</code>).</dd>
+<dt>fonte</dt><dd>o catálogo de onde o winget lê os pacotes: <code>winget</code> (o repositório comunitário da Microsoft) e <code>msstore</code> (a Microsoft Store).</dd>
+</dl>
+<p>O ID é o que você vai mais usar: nomes de programas se repetem e mudam de idioma, mas o ID não. Por isso as aulas sempre mostram o jeito <em>exato</em> de pedir um pacote pelo ID.</p>
+
+<h2>3. Por que usar a linha de comando</h2>
+<ul>
+<li><strong>Rapidez:</strong> um comando substitui vários cliques.</li>
+<li><strong>Repetição:</strong> o mesmo comando funciona em outro computador, num script ou num roteiro de instalação.</li>
+<li><strong>Segurança:</strong> o instalador vem do endereço registrado no catálogo e o winget confere o hash antes de executar.</li>
+<li><strong>Atualização:</strong> um único comando mostra o que tem versão mais recente.</li>
+</ul>
+
+<div class="tip"><strong>O winget só existe no Windows</strong><p>Ele faz parte do <em>Instalador de Aplicativo</em> (App Installer) do Windows 10 e 11. Todas as saídas deste guia foram colhidas num Windows de verdade; as missões pedem que você rode os comandos no <em>seu</em> Windows e cole a resposta na página.</p></div>
+
+<h2>4. Como o guia está organizado</h2>
+<p>O <strong>Nível 1</strong> só lê: versão, ajuda, busca e detalhes de pacotes. Nada muda no seu computador. O <strong>Nível 2</strong> trata do que vem antes e depois de instalar: contratos, códigos de saída e erros. O <strong>Nível 3</strong> trata de fontes, configurações, manifestos (os arquivos que descrevem um pacote) e de como usar o winget em scripts.</p>
+
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Formato do ID</h3><p>Complete o formato de um ID de pacote do winget.</p><div class="ex-code"><input data-answer="Editor" aria-label="resposta">.Programa</div></div>
+
+<div class="mc" data-answer="1"><p class="mc-q">2. Qual destas é uma fonte padrão do winget?</p>
+<label><input type="radio" name="q2"> <code>apt</code></label>
+<label><input type="radio" name="q2"> <code>msstore</code></label>
+<label><input type="radio" name="q2"> <code>npm</code></label></div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li>O winget é o gerenciador de pacotes oficial do Windows.</li>
+<li>Cada pacote tem um ID único no formato <code>Editor.Programa</code>.</li>
+<li>Os pacotes vêm de fontes: <code>winget</code> e <code>msstore</code>.</li>
+<li>O Nível 1 só consulta; nada muda no seu computador.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

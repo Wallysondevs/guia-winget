@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Códigos de Saída | Guia winget</title>
+<meta name="description" content="Como ler o código de saída do winget no PowerShell com $LASTEXITCODE, o que significa zero e o que são os códigos negativos como 0x8A15....">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Códigos de Saída</h1>
+
+<p class="intro">Todo comando termina com um número: o código de saída. Zero quer dizer sucesso; qualquer outro número diz o que deu errado. É esse número que um script usa para decidir o próximo passo.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Ler o código com <code>$LASTEXITCODE</code> no PowerShell.</li><li>Por que os códigos do winget são números negativos grandes.</li><li>Converter para hexadecimal para pesquisar.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. Na prática</h2>
+<p>Este trecho de PowerShell roda dois <code>show</code> (um com pacote que existe, outro com pacote que não existe), joga a saída fora com <code>&gt; $null</code> e mostra o código de cada um:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget show --id jqlang.jq --exact &gt; $null; "jqlang.jq: código $LASTEXITCODE"; winget show --id Exemplo.PacoteQueNaoExiste --exact &gt; $null; "inexistente: código $LASTEXITCODE"
+jqlang.jq: código 0
+inexistente: código -1978335212</pre>
+<dl class="anatomy">
+<dt>&gt; $null</dt><dd>descarta a saída normal do comando.</dd>
+<dt>$LASTEXITCODE</dt><dd>variável do PowerShell com o código de saída do último programa.</dd>
+</dl>
+
+<p>O primeiro <code>show</code> deu certo (código <code>0</code>); o segundo não achou o pacote e terminou com <code>-1978335212</code>.</p>
+
+<h2>2. Por que números tão grandes?</h2>
+<p>O winget usa códigos no formato de erro do Windows (HRESULT). Em hexadecimal, os erros do winget começam com <code>0x8A15</code>. Como o primeiro bit está ligado, o mesmo número aparece negativo em decimal. Para pesquisar um código na documentação, converta para hexadecimal no PowerShell:</p>
+<pre class="cmd">'{0:X8}' -f -1978335212</pre>
+<p>O <code>-1978335212</code> acima é o <code>0x8A150014</code>, o código de “nenhum pacote encontrado” (o script de coleta registra cada código nas duas formas). O script registrou o código de cada comando deste guia; estes foram os erros que apareceram:</p>
+<div class="table-wrap"><table class="ref">
+<tr><th>Código</th><th>Decimal</th><th>Quando apareceu</th><th>Aula</th></tr>
+<tr><td><code>0x8A150002</code></td><td><code>-1978335230</code></td><td>argumento, comando ou valor inválido (<code>--opcao-que-nao-existe</code>, <code>serch</code>, <code>--count abc</code>)</td><td><a href="lendo-erros.html">Lendo Mensagens de Erro</a></td></tr>
+<tr><td><code>0x8A150014</code></td><td><code>-1978335212</code></td><td>nenhum pacote encontrado (<code>show</code>, <code>install</code> e <code>uninstall</code> de um ID inexistente)</td><td><a href="erros-de-instalacao.html">Erros ao Instalar e Remover</a></td></tr>
+<tr><td><code>0x8A150017</code></td><td><code>-1978335209</code></td><td>versão inexistente (<code>--version 0.0.0.1</code>)</td><td><a href="versoes.html">Versões Disponíveis</a></td></tr>
+<tr><td><code>0x8A150029</code></td><td><code>-1978335191</code></td><td>manifesto com erro no <code>validate</code></td><td><a href="validar-manifesto.html">Validando Manifestos</a></td></tr>
+</table></div>
+<p>Repare que o <code>winget show python</code> da aula <a href="mostrar.html">Detalhes de um Pacote</a> terminou com <code>0</code>: ele achou um pacote (só não era o que se esperava). Código zero quer dizer que o comando funcionou, não que fez o que você queria.</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>$LASTEXITCODE</code></td><td>código do último programa (PowerShell)</td></tr>
+<tr><td><code>echo %ERRORLEVEL%</code></td><td>o mesmo no Prompt de Comando</td></tr>
+<tr><td><code>'{0:X8}' -f código</code></td><td>converte para hexadecimal</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="mc" data-answer="1"><p class="mc-q">1. O que significa o código de saída 0?</p>
+<label><input type="radio" name="q1"> Erro desconhecido</label>
+<label><input type="radio" name="q1"> Sucesso</label>
+<label><input type="radio" name="q1"> Pacote não encontrado</label></div>
+
+<div class="trycmd" data-goal="src:\$LASTEXITCODE;;src:Exemplo\.PacoteQueNaoExiste;;out:jqlang.jq: código 0">
+<p class="try-task"><strong>Missão:</strong> Rode o trecho que mostra o código de saída de um <code>show</code> que dá certo e de um que falha.</p>
+<pre class="script">
+winget show --id jqlang.jq --exact &gt; $null
+</pre>
+<pre class="solucao">
+winget show --id jqlang.jq --exact &gt; $null; "jqlang.jq: código $LASTEXITCODE"; winget show --id Exemplo.PacoteQueNaoExiste --exact &gt; $null; "inexistente: código $LASTEXITCODE"
+</pre>
+<pre class="saida-ok" hidden>
+jqlang.jq: código 0
+inexistente: código -1978335212
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li>Zero é sucesso; outro número é erro.</li>
+<li>No PowerShell, o código fica em <code>$LASTEXITCODE</code>.</li>
+<li>Erros do winget começam com <code>0x8A15</code> em hexadecimal.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

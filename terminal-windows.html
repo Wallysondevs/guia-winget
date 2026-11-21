@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abrindo o Terminal (PowerShell e CMD) | Guia winget</title>
+<meta name="description" content="Como abrir o PowerShell, o Prompt de Comando e o Terminal do Windows para usar o winget, e como copiar e colar comandos e respostas.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Abrindo o Terminal (PowerShell e CMD)</h1>
+
+<p class="intro">O winget não tem janela própria: você o usa de dentro de um terminal. Esta aula mostra onde ficam os terminais do Windows, qual escolher e como copiar e colar comandos e respostas.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Abrir o Terminal do Windows, o PowerShell e o Prompt de Comando.</li><li>Reconhecer o prompt <code>PS C:\Users\ana&gt;</code>.</li><li>Copiar e colar no terminal sem errar.</li><li>Por que não abrir o terminal como administrador.</li></ul></div>
+
+<div class="note"><strong>Sobre esta aula.</strong> Esta aula não mostra saídas de comandos: é só explicação. As aulas com exemplos trazem a resposta exata do winget rodando no Windows de verdade, colhida por um script e com nomes trocados (computador <code>NOTEBOOK</code>, usuária fictícia <code>ana</code>).</div>
+
+
+<h2>1. Três jeitos de abrir um terminal</h2>
+<ol class="passo">
+<li><strong>Terminal do Windows:</strong> clique com o botão direito no botão Iniciar e escolha <em>Terminal</em> (no Windows 10, procure “Terminal” no menu Iniciar; se não aparecer, ele pode ser instalado pela Microsoft Store).</li>
+<li><strong>PowerShell:</strong> aperte <kbd>Win</kbd>, digite <code>powershell</code> e aperte <kbd>Enter</kbd>.</li>
+<li><strong>Prompt de Comando (CMD):</strong> aperte <kbd>Win</kbd>+<kbd>R</kbd>, digite <code>cmd</code> e aperte <kbd>Enter</kbd>.</li>
+</ol>
+<p>O winget funciona igual nos três: é um programa comum (<code>winget.exe</code>), não um comando de um shell específico. Este guia mostra os exemplos no <strong>PowerShell</strong>, cujo prompt começa com <code>PS</code>.</p>
+
+<h2>2. Lendo o prompt</h2>
+<dl class="anatomy">
+<dt>PS</dt><dd>você está no PowerShell (no CMD, o prompt não tem esse <code>PS</code>).</dd>
+<dt>C:\Users\ana</dt><dd>a pasta atual; nos exemplos, a pasta pessoal da usuária fictícia <code>ana</code>.</dd>
+<dt>&gt;</dt><dd>o fim do prompt: o que vem depois é o comando que você digitou.</dd>
+</dl>
+<p>Nos blocos de terminal deste guia, a linha que começa com <code>PS C:\Users\ana&gt;</code> é o comando; as linhas de baixo são a resposta. Você digita só o comando, sem o prompt.</p>
+
+<h2>3. Copiar e colar</h2>
+<ul>
+<li>No Terminal do Windows e no PowerShell atual, <kbd>Ctrl</kbd>+<kbd>V</kbd> cola e <kbd>Ctrl</kbd>+<kbd>C</kbd> copia o texto selecionado (sem seleção, <kbd>Ctrl</kbd>+<kbd>C</kbd> interrompe o comando).</li>
+<li>O clique com o botão direito também cola, na maioria das janelas de terminal.</li>
+<li>Para copiar a resposta, selecione com o mouse e aperte <kbd>Ctrl</kbd>+<kbd>C</kbd> ou <kbd>Enter</kbd> (no console clássico).</li>
+</ul>
+
+<div class="warning"><strong>Não use “Executar como administrador”</strong><p>Tudo neste guia funciona num terminal comum. Instalar como administrador muda onde os programas vão parar e dá poder demais a qualquer erro de digitação. Quando um instalador realmente precisar de permissão, o próprio Windows pergunta.</p></div>
+
+<h2>4. Um teste rápido</h2>
+<p>Com o terminal aberto, a próxima aula roda o primeiro comando: <code>winget --version</code>. Se aparecer um número de versão, está tudo pronto.</p>
+
+
+<hr>
+<h2 id="errado">Quando dá errado</h2>
+
+<p>Se o terminal responder que <code>winget</code> não é reconhecido como comando, o Instalador de Aplicativo não está instalado ou está desatualizado. A aula <a href="instalar-e-versao.html">Instalação e Versão</a> mostra como resolver.</p>
+
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. O prompt do PowerShell</h3><p>Complete o começo do prompt do PowerShell na pasta da ana.</p><div class="ex-code"><input data-answer="PS" aria-label="resposta"> C:\Users\ana&gt;</div></div>
+
+<div class="mc" data-answer="2"><p class="mc-q">2. Em qual terminal o winget funciona?</p>
+<label><input type="radio" name="q2"> Só no PowerShell</label>
+<label><input type="radio" name="q2"> Só no Prompt de Comando</label>
+<label><input type="radio" name="q2"> No PowerShell, no Prompt de Comando e no Terminal do Windows</label></div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li>O winget roda em qualquer terminal do Windows.</li>
+<li>No guia, a linha com <code>PS C:\Users\ana&gt;</code> é o comando; o resto é a resposta.</li>
+<li>Use um terminal comum, sem ser administrador.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

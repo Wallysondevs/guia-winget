@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Filtros da Busca (--id, --name, --exact) | Guia winget</title>
+<meta name="description" content="Como refinar o winget search com --id, --name, --exact, --source e --count para achar exatamente o pacote que você quer.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Filtros da Busca (<code>--id</code>, <code>--name</code>, <code>--exact</code>)</h1>
+
+<p class="intro">Uma busca solta traz candidatos demais. Os filtros dizem ao winget em qual campo procurar, se o texto precisa ser exato, em qual fonte e quantos resultados mostrar.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Procurar só no ID com <code>--id</code> e só no nome com <code>--name</code>.</li><li>Exigir o texto exato com <code>--exact</code>.</li><li>Escolher a fonte com <code>--source</code> e limitar com <code>--count</code>.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. ID exato</h2>
+<p>Quando você já sabe o ID, <code>--id</code> com <code>--exact</code> traz um resultado só:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search --id jqlang.jq --exact --accept-source-agreements
+Nome ID        Versão Origem
+-----------------------------
+jq   jqlang.jq 1.8.2  winget</pre>
+<dl class="anatomy">
+<dt>--id jqlang.jq</dt><dd>procura só no campo ID.</dd>
+<dt>--exact</dt><dd>o ID precisa ser exatamente esse, inclusive maiúsculas e minúsculas.</dd>
+<dt>--accept-source-agreements</dt><dd>aceita os contratos das fontes (necessário só na primeira vez).</dd>
+</dl>
+
+<h2>2. Só no nome, só numa fonte</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search --name jq --source winget
+Nome     ID                Versão
+---------------------------------
+jq       jqlang.jq         1.8.2
+DotNetJq GtGOpen.DotNetJq  1.0.0
+ajq      RicardoCabral.ajq 0.1.5
+jqweb    zafnz.jqweb       0.9.0</pre>
+<p><code>--name</code> ignora ID, etiquetas e apelidos (por isso o <code>jqweb</code>, que tem “jq” no nome, aparece, mas os pacotes achados só pela etiqueta, não). Com <code>--source winget</code>, a Microsoft Store fica de fora e a tabela nem mostra a origem, porque todos vêm da mesma fonte.</p>
+
+<h2>3. Limitando a quantidade</h2>
+<p>Termos populares devolvem dezenas de pacotes. <code>--count</code> (ou <code>-n</code>) corta a lista, e o winget avisa na última linha que há mais resultados:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search python --count 5
+Nome             ID                          Versão         Correspondência Origem
+----------------------------------------------------------------------------------
+Anaconda3        Anaconda.Anaconda3          2026.07-1      Command: python winget
+Miniconda3       Anaconda.Miniconda3         py314_26.9.4-1 Command: python winget
+Mambaforge       CondaForge.Mambaforge       24.11.0-1      Command: python winget
+Mambaforge-pypy3 CondaForge.Mambaforge.PyPy3 24.11.0-1      Command: python winget
+Miniforge3       CondaForge.Miniforge3       26.9.4-2       Command: python winget
+&lt;entradas adicionais truncadas devido ao limite de resultado&gt;</pre>
+
+
+<hr>
+<h2 id="errado">Quando dá errado</h2>
+
+<p>Com <code>--exact</code>, maiúsculas importam: <code>--id JQLang.JQ --exact</code> pode não achar nada. Sem <code>--exact</code>, a busca aceita pedaços e não diferencia maiúsculas. E <code>--count</code> só aceita um número de 1 a 1000 (veja o erro real em <a href="lendo-erros.html">Lendo Mensagens de Erro</a>).</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>--id</code></td><td>procura no ID</td></tr>
+<tr><td><code>--name</code></td><td>procura no nome</td></tr>
+<tr><td><code>-e</code>, <code>--exact</code></td><td>valor exato</td></tr>
+<tr><td><code>-s</code>, <code>--source</code></td><td>escolhe a fonte</td></tr>
+<tr><td><code>-n</code>, <code>--count</code></td><td>máximo de resultados</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Fonte</h3><p>Complete para buscar só na fonte comunitária.</p><div class="ex-code">winget search --name jq --source <input data-answer="winget" aria-label="resposta"></div></div>
+
+<div class="trycmd" data-goal="src:--id\s+jqlang\.jq;;src:--exact\b|\s-e\b;;outre:jqlang\.jq">
+<p class="try-task"><strong>Missão:</strong> Procure o ID <code>jqlang.jq</code> com busca exata (aceitando os contratos das fontes).</p>
+<pre class="script">
+winget search jq
+</pre>
+<pre class="solucao">
+winget search --id jqlang.jq --exact --accept-source-agreements
+</pre>
+<pre class="saida-ok" hidden>
+Nome ID        Versão Origem
+-----------------------------
+jq   jqlang.jq 1.8.2  winget
+</pre>
+</div>
+
+<div class="trycmd" data-goal="src:\bpython\b;;src:(--count|-n)\s+5\b;;outre:entradas adicionais truncadas|additional entries truncated">
+<p class="try-task"><strong>Missão:</strong> Procure <code>python</code> mostrando no máximo 5 resultados.</p>
+<pre class="script">
+winget search python
+</pre>
+<pre class="solucao">
+winget search python --count 5
+</pre>
+<pre class="saida-ok" hidden>
+Nome             ID                          Versão         Correspondência Origem
+----------------------------------------------------------------------------------
+Anaconda3        Anaconda.Anaconda3          2026.07-1      Command: python winget
+Miniconda3       Anaconda.Miniconda3         py314_26.9.4-1 Command: python winget
+Mambaforge       CondaForge.Mambaforge       24.11.0-1      Command: python winget
+Mambaforge-pypy3 CondaForge.Mambaforge.PyPy3 24.11.0-1      Command: python winget
+Miniforge3       CondaForge.Miniforge3       26.9.4-2       Command: python winget
+&lt;entradas adicionais truncadas devido ao limite de resultado&gt;
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>--id</code> e <code>--name</code> escolhem o campo.</li>
+<li><code>--exact</code> exige o texto exato.</li>
+<li><code>--source</code> escolhe a fonte; <code>--count</code> limita a lista.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

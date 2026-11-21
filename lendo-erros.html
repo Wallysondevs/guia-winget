@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lendo Mensagens de Erro | Guia winget</title>
+<meta name="description" content="As mensagens de erro reais do winget: pacote não encontrado, argumento não reconhecido, comando digitado errado e valor inválido, e como ler cada uma.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Lendo Mensagens de Erro</h1>
+
+<p class="intro">Errar no terminal é normal. O que separa quem se vira de quem trava é ler a mensagem. Aqui estão erros reais do winget, um de cada tipo, e o que cada um quer dizer.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Reconhecer “nenhum pacote encontrado”.</li><li>Reconhecer argumento e comando não reconhecidos.</li><li>Reconhecer um valor inválido para uma opção.</li><li>Usar o código de saída para saber se deu certo.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. Pacote que não existe</h2>
+<p>Pedir um ID que não está em nenhuma fonte:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget show --id Exemplo.PacoteQueNaoExiste --exact
+Nenhum pacote encontrou os critérios de entrada correspondentes.</pre>
+<p>Uma linha só: o winget procurou e não achou nada com aquele critério (a frase em português é um pouco torta, mas é exatamente o que ele escreve). Confira a grafia do ID ou procure por um pedaço do nome com <code>winget search</code>.</p>
+
+<h2>2. Opção que não existe</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search --opcao-que-nao-existe jq
+Gerenciador de Pacotes do Windows v1.29.380
+© 2026 Microsoft. Todos os direitos reservados.
+
+O nome do argumento não foi reconhecido para o comando atual: '--opcao-que-nao-existe'
+
+Pesquisas de pacotes de fontes configuradas.
+
+uso: winget search [[-q] &lt;query&gt;] [&lt;opções&gt;]
+
+Os seguintes nomes alternativos de comando estão disponíveis:
+  find
+
+Os seguintes argumentos estão disponíveis:
+  -q,--query                  A consulta usada para pesquisar um pacote
+
+As seguintes opções estão disponíveis:
+  --id                        Filtrar resultados por id
+  --name                      Filtrar resultados por nome
+  --moniker                   Filtrar resultados por moniker
+  --tag                       Filtrar resultados por rótulo
+  --cmd,--command             Filtrar resultados por comando
+  -s,--source                 Encontrar pacote usando a fonte especificada
+  -n,--count                  Não mostrar mais do que o número especificado de resultados (entre 1 e 1000)
+  -e,--exact                  Localizar pacote usando uma correspondência exata
+  --header                    Cabeçalho HTTP de origem REST opcional do Gerenciador de Pacotes do Windows
+  --authentication-mode       Especificar a preferência da janela de autenticação (silent, silentPreferred ou interactive)
+  --authentication-account    Especifique a conta a ser usada para autenticação
+  --accept-source-agreements  Aceitar todos os acordos de origem durante as operações de origem
+  --versions                  Mostrar versões disponíveis do pacote
+  -?,--help                   Mostra a ajuda sobre o comando selecionado
+  --wait                      Solicita que o usuário pressione qualquer tecla antes de sair
+  --logs,--open-logs          Abrir o local padrão dos logs
+  --verbose,--verbose-logs    Habilita o registro em log detalhado para winget
+  --nowarn,--ignore-warnings  Suprime saídas de aviso
+  --disable-interactivity     Desabilitar os prompts interativos
+  --proxy                     Definir um proxy a ser usado para esta execução
+  --no-proxy                  Desabilitar o uso de proxy para esta execução
+
+Mais tópicos de ajuda podem ser encontrados em: https://aka.ms/winget-command-search</pre>
+<p>Depois do cabeçalho com a versão, o winget diz qual argumento não reconheceu (entre aspas simples) e mostra a ajuda do comando <code>search</code>, para você achar a opção certa.</p>
+
+<h2>3. Comando digitado errado</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget serch jq
+Gerenciador de Pacotes do Windows v1.29.380
+© 2026 Microsoft. Todos os direitos reservados.
+
+Comando não reconhecido: "serch"
+
+O programa utilitário de linha de comando winget permite instalar aplicativos e outros pacotes a partir da linha de comando.
+
+uso: winget  [&lt;comando&gt;] [&lt;opções&gt;]
+
+Os seguintes comandos estão disponíveis:
+  install    Instalar um determinado pacote
+  show       Mostra informações sobre um pacote
+  source     Gerenciar fontes de pacotes
+  search     Localizar e mostrar informações básicas de pacotes
+  list       Exibir os pacotes instalados
+  upgrade    Mostra e executa atualizações disponíveis
+  uninstall  Desinstala um determinado pacote
+  hash       Ajuda para arquivos do instalador de hash
+  validate   Valida um arquivo de manifesto
+  settings   Abra as configurações ou defina as configurações do administrador
+  features   Mostra o status dos recursos experimentais
+  export     Exporta uma lista dos pacotes instalados
+  import     Instala todos os pacotes em um arquivo
+  pin        Gerenciar pinos de pacote
+  configure  Configura o sistema em um estado desejado
+  download   Baixa o instalador de um determinado pacote
+  repair     Repara o pacote selecionado
+  dscv3      Comandos de recurso DSC v3
+  mcp        Informações MCP
+
+Para obter mais detalhes sobre um comando específico, passe o argumento help. [-?]
+
+As seguintes opções estão disponíveis:
+  -v,--version                Exibir a versão da ferramenta
+  --info                      Exibir informações gerais da ferramenta
+  -?,--help                   Mostra a ajuda sobre o comando selecionado
+  --wait                      Solicita que o usuário pressione qualquer tecla antes de sair
+  --logs,--open-logs          Abrir o local padrão dos logs
+  --verbose,--verbose-logs    Habilita o registro em log detalhado para winget
+  --nowarn,--ignore-warnings  Suprime saídas de aviso
+  --disable-interactivity     Desabilitar os prompts interativos
+  --proxy                     Definir um proxy a ser usado para esta execução
+  --no-proxy                  Desabilitar o uso de proxy para esta execução
+
+Mais tópicos de ajuda podem ser encontrados em: https://aka.ms/winget-command-help</pre>
+<p>Aqui o erro está no próprio comando (<code>serch</code> em vez de <code>search</code>). O winget diz <code>Comando não reconhecido</code> e mostra a ajuda geral, com a lista de comandos válidos.</p>
+
+<h2>4. Valor inválido</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search jq --count abc
+Gerenciador de Pacotes do Windows v1.29.380
+© 2026 Microsoft. Todos os direitos reservados.
+
+O número solicitado de resultados deve estar entre 1 e 1000.
+
+Pesquisas de pacotes de fontes configuradas.
+
+uso: winget search [[-q] &lt;query&gt;] [&lt;opções&gt;]
+
+Os seguintes nomes alternativos de comando estão disponíveis:
+  find
+
+Os seguintes argumentos estão disponíveis:
+  -q,--query                  A consulta usada para pesquisar um pacote
+
+As seguintes opções estão disponíveis:
+  --id                        Filtrar resultados por id
+  --name                      Filtrar resultados por nome
+  --moniker                   Filtrar resultados por moniker
+  --tag                       Filtrar resultados por rótulo
+  --cmd,--command             Filtrar resultados por comando
+  -s,--source                 Encontrar pacote usando a fonte especificada
+  -n,--count                  Não mostrar mais do que o número especificado de resultados (entre 1 e 1000)
+  -e,--exact                  Localizar pacote usando uma correspondência exata
+  --header                    Cabeçalho HTTP de origem REST opcional do Gerenciador de Pacotes do Windows
+  --authentication-mode       Especificar a preferência da janela de autenticação (silent, silentPreferred ou interactive)
+  --authentication-account    Especifique a conta a ser usada para autenticação
+  --accept-source-agreements  Aceitar todos os acordos de origem durante as operações de origem
+  --versions                  Mostrar versões disponíveis do pacote
+  -?,--help                   Mostra a ajuda sobre o comando selecionado
+  --wait                      Solicita que o usuário pressione qualquer tecla antes de sair
+  --logs,--open-logs          Abrir o local padrão dos logs
+  --verbose,--verbose-logs    Habilita o registro em log detalhado para winget
+  --nowarn,--ignore-warnings  Suprime saídas de aviso
+  --disable-interactivity     Desabilitar os prompts interativos
+  --proxy                     Definir um proxy a ser usado para esta execução
+  --no-proxy                  Desabilitar o uso de proxy para esta execução
+
+Mais tópicos de ajuda podem ser encontrados em: https://aka.ms/winget-command-search</pre>
+<p>A opção <code>--count</code> espera um número de 1 a 1000, e é isso que a mensagem diz; <code>abc</code> não serve.</p>
+
+<div class="tip"><strong>Ache a linha do problema</strong><p>Quando o erro é de digitação, o winget repete o cabeçalho com a versão e a frase do problema vem logo depois; o resto é a ajuda. Quando o erro é de pacote, a resposta é só a frase. E todo comando termina com um <strong>código de saída</strong>: zero quando deu certo, outro número quando falhou (estes quatro erros terminaram com <code>0x8A150014</code> o primeiro e <code>0x8A150002</code> os outros três). A aula <a href="codigos-de-saida.html">Códigos de Saída</a> mostra como ler esse número no PowerShell.</p></div>
+
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="mc" data-answer="1"><p class="mc-q">1. Você digitou <code>winget serch jq</code>. Qual é o problema?</p>
+<label><input type="radio" name="q1"> O pacote jq não existe</label>
+<label><input type="radio" name="q1"> O comando <code>serch</code> não existe</label>
+<label><input type="radio" name="q1"> Falta internet</label></div>
+
+<div class="trycmd" data-goal="src:\bshow\b;;src:Exemplo\.PacoteQueNaoExiste;;src:--exact\b|\s-e\b;;outre:^(Nenhum pacote encontrou os critérios de entrada correspondentes|No package found matching input criteria)\.">
+<p class="try-task"><strong>Missão:</strong> Provoque o erro de pacote inexistente pedindo os detalhes do ID <code>Exemplo.PacoteQueNaoExiste</code>, com ID exato.</p>
+<pre class="script">
+winget show
+</pre>
+<pre class="solucao">
+winget show --id Exemplo.PacoteQueNaoExiste --exact
+</pre>
+<pre class="saida-ok" hidden>
+Nenhum pacote encontrou os critérios de entrada correspondentes.
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li>“Nenhum pacote encontrado”: confira o ID ou use <code>search</code>.</li>
+<li>Argumento ou comando não reconhecido: o winget mostra a ajuda certa.</li>
+<li>A primeira linha da resposta diz o problema.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buscando Pacotes (search) | Guia winget</title>
+<meta name="description" content="Como procurar programas com winget search: a tabela de resultados (nome, ID, versão, correspondência e fonte) e o que fazer com o ID encontrado.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Buscando Pacotes (<code>search</code>)</h1>
+
+<p class="intro">Para instalar algo, primeiro você precisa achar o pacote. O <code>search</code> procura no catálogo pelo que você digitar e devolve uma tabela com os candidatos.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Rodar <code>winget search</code> com uma palavra.</li><li>Ler a tabela: nome, ID, versão, correspondência e fonte.</li><li>Aceitar o contrato da fonte na primeira busca.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. A primeira busca</h2>
+<p>Na primeira vez que o winget consulta a fonte <code>msstore</code>, ele pede que você aceite o contrato da fonte. Para não ficar parado esperando resposta, dá para aceitar já no comando com <code>--accept-source-agreements</code>:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search --id jqlang.jq --exact --accept-source-agreements
+Nome ID        Versão Origem
+-----------------------------
+jq   jqlang.jq 1.8.2  winget</pre>
+<p>Depois disso, as buscas não pedem mais nada (a aula <a href="acordos-e-interatividade.html">Contratos e Modo Não Interativo</a> explica os detalhes).</p>
+
+<h2>2. Buscando por uma palavra</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search jq
+Nome           ID                                    Versão Correspondência Origem
+----------------------------------------------------------------------------------
+jq             jqlang.jq                             1.8.2                  winget
+celq           IvanIsCoding.celq                     0.8.0  Tag: jq         winget
+ajq            RicardoCabral.ajq                     0.1.5  Tag: jq         winget
+DotNetJq       GtGOpen.DotNetJq                      1.0.0                  winget
+jqweb          zafnz.jqweb                           0.9.0                  winget
+PiliPlus       bggRGjQaUbCoE.PiliPlus                2.2.1                  winget
+Codex 多开助手 JqyModi.CodexMultiLauncher            0.1.9                  winget
+Markdownify    amitmerchant1990.electron-markdownify 1.2.0  Tag: jquery     winget
+TheDesk        Cutls.TheDesk                         24.2.1 Tag: jquery     winget</pre>
+<dl class="anatomy">
+<dt>winget</dt><dd>o gerenciador de pacotes.</dd>
+<dt>search</dt><dd>o comando de busca.</dd>
+<dt>jq</dt><dd>o termo procurado no nome, no ID, no apelido (moniker) e nas etiquetas.</dd>
+</dl>
+<p>Cada linha da tabela é um pacote. Os títulos aparecem no idioma do Windows: <strong>Nome</strong>, <strong>ID</strong>, <strong>Versão</strong> (a mais recente no catálogo), <strong>Correspondência</strong> e <strong>Origem</strong> (a fonte). A correspondência explica por que o pacote apareceu: vazia quando o termo bateu no nome ou no ID, <code>Tag: jq</code> quando bateu numa etiqueta (e <code>Tag: jquery</code> mostra que a busca aceita pedaços de palavra).</p>
+<p>Uma busca curta como <code>jq</code> traz vários resultados, porque outros pacotes também têm “jq” em algum campo. Para instalar, o que importa é o ID: o do programa jq é <code>jqlang.jq</code>. Na busca exata acima, como só havia um resultado, a tabela nem trouxe o campo de correspondência.</p>
+
+
+<hr>
+<h2 id="errado">Quando dá errado</h2>
+
+<p>Se a busca não encontrar nada, o winget responde com a mesma mensagem de “nenhum pacote encontrado” da aula <a href="lendo-erros.html">Lendo Mensagens de Erro</a>. Tente um termo mais curto ou em inglês: os nomes dos pacotes costumam estar em inglês.</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>winget search jq</code></td><td>procura “jq” em nome, ID, moniker e etiquetas</td></tr>
+<tr><td><code>winget search "visual studio code"</code></td><td>termo com espaços vai entre aspas</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Buscar</h3><p>Complete o comando que procura pacotes com “git”.</p><div class="ex-code">winget <input data-answer="search" aria-label="resposta"> git</div></div>
+
+<div class="trycmd" data-goal="src:\bsearch\b;;src:\bjq\b;;outre:jqlang\.jq">
+<p class="try-task"><strong>Missão:</strong> Procure pacotes com o termo <code>jq</code> e ache o ID do programa jq na tabela.</p>
+<pre class="script">
+winget
+</pre>
+<pre class="solucao">
+winget search jq
+</pre>
+<pre class="saida-ok" hidden>
+Nome           ID                                    Versão Correspondência Origem
+----------------------------------------------------------------------------------
+jq             jqlang.jq                             1.8.2                  winget
+celq           IvanIsCoding.celq                     0.8.0  Tag: jq         winget
+ajq            RicardoCabral.ajq                     0.1.5  Tag: jq         winget
+DotNetJq       GtGOpen.DotNetJq                      1.0.0                  winget
+jqweb          zafnz.jqweb                           0.9.0                  winget
+PiliPlus       bggRGjQaUbCoE.PiliPlus                2.2.1                  winget
+Codex 多开助手 JqyModi.CodexMultiLauncher            0.1.9                  winget
+Markdownify    amitmerchant1990.electron-markdownify 1.2.0  Tag: jquery     winget
+TheDesk        Cutls.TheDesk                         24.2.1 Tag: jquery     winget
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>winget search termo</code> procura no catálogo.</li>
+<li>A tabela mostra nome, ID, versão, correspondência e fonte.</li>
+<li>Guarde o ID: é ele que você usa para instalar.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

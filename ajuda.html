@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pedindo Ajuda (--help) | Guia winget</title>
+<meta name="description" content="Como usar winget --help para ver a lista de comandos e winget search --help ou winget install --help para ver as opções de cada comando.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Pedindo Ajuda (<code>--help</code>)</h1>
+
+<p class="intro">Ninguém decora todas as opções do winget. O que se decora é como pedir ajuda: <code>--help</code> depois do programa ou depois de um comando.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Ver a lista de comandos com <code>winget --help</code>.</li><li>Ver as opções de um comando com <code>winget search --help</code>.</li><li>Ler a forma curta e a longa de uma opção (<code>-e</code> e <code>--exact</code>).</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. A lista de comandos</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget --help
+Gerenciador de Pacotes do Windows v1.29.380
+© 2026 Microsoft. Todos os direitos reservados.
+
+O programa utilitário de linha de comando winget permite instalar aplicativos e outros pacotes a partir da linha de comando.
+
+uso: winget  [&lt;comando&gt;] [&lt;opções&gt;]
+
+Os seguintes comandos estão disponíveis:
+  install    Instalar um determinado pacote
+  show       Mostra informações sobre um pacote
+  source     Gerenciar fontes de pacotes
+  search     Localizar e mostrar informações básicas de pacotes
+  list       Exibir os pacotes instalados
+  upgrade    Mostra e executa atualizações disponíveis
+  uninstall  Desinstala um determinado pacote
+  hash       Ajuda para arquivos do instalador de hash
+  validate   Valida um arquivo de manifesto
+  settings   Abra as configurações ou defina as configurações do administrador
+  features   Mostra o status dos recursos experimentais
+  export     Exporta uma lista dos pacotes instalados
+  import     Instala todos os pacotes em um arquivo
+  pin        Gerenciar pinos de pacote
+  configure  Configura o sistema em um estado desejado
+  download   Baixa o instalador de um determinado pacote
+  repair     Repara o pacote selecionado
+  dscv3      Comandos de recurso DSC v3
+  mcp        Informações MCP
+
+Para obter mais detalhes sobre um comando específico, passe o argumento help. [-?]
+
+As seguintes opções estão disponíveis:
+  -v,--version                Exibir a versão da ferramenta
+  --info                      Exibir informações gerais da ferramenta
+  -?,--help                   Mostra a ajuda sobre o comando selecionado
+  --wait                      Solicita que o usuário pressione qualquer tecla antes de sair
+  --logs,--open-logs          Abrir o local padrão dos logs
+  --verbose,--verbose-logs    Habilita o registro em log detalhado para winget
+  --nowarn,--ignore-warnings  Suprime saídas de aviso
+  --disable-interactivity     Desabilitar os prompts interativos
+  --proxy                     Definir um proxy a ser usado para esta execução
+  --no-proxy                  Desabilitar o uso de proxy para esta execução
+
+Mais tópicos de ajuda podem ser encontrados em: https://aka.ms/winget-command-help</pre>
+<p>A ajuda geral traz uma linha de uso, a lista de <strong>comandos</strong> (<code>install</code>, <code>show</code>, <code>search</code>, <code>list</code>, <code>upgrade</code>...) com uma frase sobre cada um e as <strong>opções gerais</strong>, como <code>-v,--version</code> e <code>--info</code>. Repare que os nomes dos comandos e das opções ficam em inglês, mesmo com o resto em português.</p>
+
+<h2>2. A ajuda de um comando</h2>
+<p>Coloque <code>--help</code> depois do comando para ver os argumentos e opções só dele:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget search --help
+Gerenciador de Pacotes do Windows v1.29.380
+© 2026 Microsoft. Todos os direitos reservados.
+
+Pesquisas de pacotes de fontes configuradas.
+
+uso: winget search [[-q] &lt;query&gt;] [&lt;opções&gt;]
+
+Os seguintes nomes alternativos de comando estão disponíveis:
+  find
+
+Os seguintes argumentos estão disponíveis:
+  -q,--query                  A consulta usada para pesquisar um pacote
+
+As seguintes opções estão disponíveis:
+  --id                        Filtrar resultados por id
+  --name                      Filtrar resultados por nome
+  --moniker                   Filtrar resultados por moniker
+  --tag                       Filtrar resultados por rótulo
+  --cmd,--command             Filtrar resultados por comando
+  -s,--source                 Encontrar pacote usando a fonte especificada
+  -n,--count                  Não mostrar mais do que o número especificado de resultados (entre 1 e 1000)
+  -e,--exact                  Localizar pacote usando uma correspondência exata
+  --header                    Cabeçalho HTTP de origem REST opcional do Gerenciador de Pacotes do Windows
+  --authentication-mode       Especificar a preferência da janela de autenticação (silent, silentPreferred ou interactive)
+  --authentication-account    Especifique a conta a ser usada para autenticação
+  --accept-source-agreements  Aceitar todos os acordos de origem durante as operações de origem
+  --versions                  Mostrar versões disponíveis do pacote
+  -?,--help                   Mostra a ajuda sobre o comando selecionado
+  --wait                      Solicita que o usuário pressione qualquer tecla antes de sair
+  --logs,--open-logs          Abrir o local padrão dos logs
+  --verbose,--verbose-logs    Habilita o registro em log detalhado para winget
+  --nowarn,--ignore-warnings  Suprime saídas de aviso
+  --disable-interactivity     Desabilitar os prompts interativos
+  --proxy                     Definir um proxy a ser usado para esta execução
+  --no-proxy                  Desabilitar o uso de proxy para esta execução
+
+Mais tópicos de ajuda podem ser encontrados em: https://aka.ms/winget-command-search</pre>
+<dl class="anatomy">
+<dt>search</dt><dd>o comando sobre o qual você quer ajuda.</dd>
+<dt>--help</dt><dd>pede a ajuda em vez de executar.</dd>
+</dl>
+<p>Cada opção aparece com a forma curta (quando existe, como <code>-e</code>) e a longa (<code>--exact</code>), separadas por vírgula. A ajuda também mostra que <code>search</code> tem um nome alternativo, <code>find</code>, e que <code>--count</code> aceita de 1 a 1000. As duas fazem a mesma coisa: a curta é para digitar rápido; a longa, para scripts que outras pessoas vão ler.</p>
+<p>O <code>install</code> tem bem mais opções, porque decide escopo, local, versão, arquitetura e modo silencioso:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget install --help
+Gerenciador de Pacotes do Windows v1.29.380
+© 2026 Microsoft. Todos os direitos reservados.
+
+Instala o pacote selecionado, seja encontrado pesquisando uma origem configurada ou diretamente de um manifesto. Por padrão, a consulta deve corresponder a maiúsculas e minúsculas a id, name ou moniker do pacote. Outros campos podem ser usados passando sua opção apropriada. Por padrão, o comando install verificará o status do pacote instalado e tentará realizar uma atualização, se aplicável. Substitua por --force para executar uma instalação direta.
+
+uso: winget install [[-q] &lt;query&gt;...] [&lt;opções&gt;]
+
+Os seguintes nomes alternativos de comando estão disponíveis:
+  add
+
+Os seguintes argumentos estão disponíveis:
+  -q,--query                           A consulta usada para pesquisar um pacote
+
+As seguintes opções estão disponíveis:
+  -m,--manifest                        O caminho para o manifesto do pacote
+  --id                                 Filtrar resultados por id
+  --name                               Filtrar resultados por nome
+  --moniker                            Filtrar resultados por moniker
+  -v,--version                         Usar a versão especificada. O padrão é a versão mais recente
+  -s,--source                          Encontrar pacote usando a fonte especificada
+  --scope                              Selecione instalar escopo (user ou machine)
+  -a,--architecture                    Selecionar a arquitetura
+  --installer-type                     Selecione o tipo de instalador
+  -e,--exact                           Localizar pacote usando uma correspondência exata
+  -i,--interactive                     Solicitar instalação interativa; a entrada do usuário pode ser necessária
+  -h,--silent                          Solicitar uma instalação silenciosa
+  --locale                             Local para usar (formato BCP47)
+  -o,--log                             Local do log (se houver suporte)
+  --custom                             Argumentos a serem passados para o instalador, além dos padrões
+  --override                           Substituir argumentos para passar para o instalador
+  -l,--location                        Local para instalar (se houver suporte)
+  --ignore-security-hash               Ignorar a falha na verificação do código hash do instalador
+  --allow-reboot                       Permite uma reinicialização, se aplicável
+  --skip-dependencies                  Ignora o processamento de dependências de pacote e recursos do Windows
+  --dependencies-only                  Instala apenas as dependências do pacote
+  --ignore-local-archive-malware-scan  Ignorar a verificação de malware realizada como parte da instalação de um pacote de tipo de arquivo morto do manifesto local
+  --dependency-source                  Encontre as dependências de pacotes usando a origem especificada
+  --accept-package-agreements          Aceitar todos os contratos de licença para pacotes
+  --no-upgrade                         Ignora a atualização se uma versão instalada já existir
+  --header                             Cabeçalho HTTP de origem REST opcional do Gerenciador de Pacotes do Windows
+  --authentication-mode                Especificar a preferência da janela de autenticação (silent, silentPreferred ou interactive)
+  --authentication-account             Especifique a conta a ser usada para autenticação
+  --accept-source-agreements           Aceitar todos os acordos de origem durante as operações de origem
+  -r,--rename                          O valor para renomear o arquivo executável (portátil)
+  --uninstall-previous                 Desinstalar a versão anterior do pacote durante a atualização
+  --force                              Execute diretamente o comando e continue com problemas não relacionados à segurança
+  -?,--help                            Mostra a ajuda sobre o comando selecionado
+  --wait                               Solicita que o usuário pressione qualquer tecla antes de sair
+  --logs,--open-logs                   Abrir o local padrão dos logs
+  --verbose,--verbose-logs             Habilita o registro em log detalhado para winget
+  --nowarn,--ignore-warnings           Suprime saídas de aviso
+  --disable-interactivity              Desabilitar os prompts interativos
+  --proxy                              Definir um proxy a ser usado para esta execução
+  --no-proxy                           Desabilitar o uso de proxy para esta execução
+
+Mais tópicos de ajuda podem ser encontrados em: https://aka.ms/winget-command-install</pre>
+
+
+<hr>
+<h2 id="errado">Quando dá errado</h2>
+
+<p>Se você digitar um comando que não existe, o winget avisa e mostra a ajuda geral; se errar uma opção, mostra a ajuda daquele comando. A aula <a href="lendo-erros.html">Lendo Mensagens de Erro</a> mostra a mensagem real.</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>winget --help</code></td><td>lista de comandos</td></tr>
+<tr><td><code>winget &lt;comando&gt; --help</code></td><td>opções de um comando</td></tr>
+<tr><td><code>winget -?</code></td><td>forma curta da ajuda</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Ajuda de um comando</h3><p>Complete para ver as opções do comando <code>show</code>.</p><div class="ex-code">winget show <input data-answer="--help" aria-label="resposta"></div></div>
+
+<div class="trycmd" data-goal="src:\bsearch\b;;src:--help\b|\s-\?;;outre:--exact">
+<p class="try-task"><strong>Missão:</strong> Peça a ajuda do comando <code>search</code> para ver todas as opções de busca.</p>
+<pre class="script">
+winget search
+</pre>
+<pre class="solucao">
+winget search --help
+</pre>
+<pre class="saida-ok" hidden>
+Gerenciador de Pacotes do Windows v1.29.380
+© 2026 Microsoft. Todos os direitos reservados.
+
+Pesquisas de pacotes de fontes configuradas.
+
+uso: winget search [[-q] &lt;query&gt;] [&lt;opções&gt;]
+
+Os seguintes nomes alternativos de comando estão disponíveis:
+  find
+
+Os seguintes argumentos estão disponíveis:
+  -q,--query                  A consulta usada para pesquisar um pacote
+
+As seguintes opções estão disponíveis:
+  --id                        Filtrar resultados por id
+  --name                      Filtrar resultados por nome
+  --moniker                   Filtrar resultados por moniker
+  --tag                       Filtrar resultados por rótulo
+  --cmd,--command             Filtrar resultados por comando
+  -s,--source                 Encontrar pacote usando a fonte especificada
+  -n,--count                  Não mostrar mais do que o número especificado de resultados (entre 1 e 1000)
+  -e,--exact                  Localizar pacote usando uma correspondência exata
+  --header                    Cabeçalho HTTP de origem REST opcional do Gerenciador de Pacotes do Windows
+  --authentication-mode       Especificar a preferência da janela de autenticação (silent, silentPreferred ou interactive)
+  --authentication-account    Especifique a conta a ser usada para autenticação
+  --accept-source-agreements  Aceitar todos os acordos de origem durante as operações de origem
+  --versions                  Mostrar versões disponíveis do pacote
+  -?,--help                   Mostra a ajuda sobre o comando selecionado
+  --wait                      Solicita que o usuário pressione qualquer tecla antes de sair
+  --logs,--open-logs          Abrir o local padrão dos logs
+  --verbose,--verbose-logs    Habilita o registro em log detalhado para winget
+  --nowarn,--ignore-warnings  Suprime saídas de aviso
+  --disable-interactivity     Desabilitar os prompts interativos
+  --proxy                     Definir um proxy a ser usado para esta execução
+  --no-proxy                  Desabilitar o uso de proxy para esta execução
+
+Mais tópicos de ajuda podem ser encontrados em: https://aka.ms/winget-command-search
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>winget --help</code> lista os comandos.</li>
+<li><code>winget comando --help</code> mostra as opções daquele comando.</li>
+<li>Opções têm forma curta (<code>-e</code>) e longa (<code>--exact</code>).</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

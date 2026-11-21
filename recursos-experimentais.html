@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recursos Experimentais (features) | Guia winget</title>
+<meta name="description" content="O que winget features mostra: recursos experimentais do winget, se estão ligados e como habilitar pelo settings.json.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Recursos Experimentais (<code>features</code>)</h1>
+
+<p class="intro">Recursos novos às vezes chegam primeiro como experimentais, desligados por padrão. O comando <code>features</code> mostra quais existem na sua versão.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Listar os recursos experimentais.</li><li>Entender onde eles são ligados.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. O comando</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget features
+Os seguintes recursos experimentais estão em andamento.
+Eles podem ser configurados por meio do arquivo de configurações ' winget settings '.
+
+Recurso                 Status       Propriedade    Link
+----------------------------------------------------------------------------------
+Direct MSI Installation Desabilitado directMSI      https://aka.ms/winget-settings
+Resume                  Desabilitado resume         https://aka.ms/winget-settings
+Font                    Desabilitado fonts          https://aka.ms/winget-settings
+Source Priority         Desabilitado sourcePriority https://aka.ms/winget-settings</pre>
+<p>A resposta lista os recursos experimentais da versão instalada: o nome do <code>Recurso</code>, o <code>Status</code> (todos <code>Desabilitado</code> aqui), a <code>Propriedade</code> (o nome usado no <code>settings.json</code>, como <code>directMSI</code> ou <code>resume</code>) e um link para a documentação. Conforme o winget evolui, recursos saem dessa lista (viram padrão ou são removidos).</p>
+
+<h2>2. Ligando um recurso</h2>
+<p>Como a própria saída diz, eles são configurados pelo arquivo de configurações (<code>winget settings</code>): na seção <code>experimentalFeatures</code> do <code>settings.json</code> (aula <a href="configuracoes.html">Configurações</a>), com o nome da <code>Propriedade</code>, por exemplo <code>"experimentalFeatures": { "resume": true }</code>. Experimental quer dizer exatamente isso: pode mudar ou sumir na próxima versão.</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>winget features</code></td><td>lista os recursos experimentais</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="mc" data-answer="0"><p class="mc-q">1. Onde se liga um recurso experimental?</p>
+<label><input type="radio" name="q1"> No <code>settings.json</code>, em <code>experimentalFeatures</code></label>
+<label><input type="radio" name="q1"> Com <code>winget upgrade --all</code></label>
+<label><input type="radio" name="q1"> No Painel de Controle</label></div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>winget features</code> mostra os experimentais da sua versão.</li>
+<li>Eles são ligados no <code>settings.json</code>.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

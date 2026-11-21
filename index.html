@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutorial winget — o gerenciador de pacotes do Windows do zero, em português | Guia winget</title>
+<meta name="description" content="Curso de winget em português para iniciantes: buscar e ver detalhes de programas no Windows pela linha de comando, ler códigos de saída e erros, além de fontes, configurações, manifestos e scripts. Saídas reais colhidas no Windows.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="hero">
+<h1>Tutorial winget</h1>
+<p>Aprenda o <strong>winget</strong>, o gerenciador de pacotes oficial do Windows, do zero: cada aula explica um comando, mostra a linha inteira e a <strong>resposta de verdade</strong> do winget, colhida num Windows real. Do <code>winget --version</code> até manifestos e scripts.</p>
+<a class="btn btn-lg" href="introducao.html">Comece aqui &#10095;</a>
+</div>
+
+<div class="pager"></div>
+
+<p>A primeira aula é <a href="introducao.html">O que é o winget</a>. Depois vêm o terminal, a versão, a ajuda e, uma a uma, as aulas de busca, diagnóstico, fontes, manifestos e scripts.</p>
+
+<hr>
+
+<h2>O que é este guia</h2>
+<p>O <strong>winget</strong> procura, instala, atualiza e remove programas no Windows com um comando, a partir de catálogos públicos. Ele vem no Instalador de Aplicativo do Windows 10 e 11.</p>
+<p>O guia é para quem nunca usou a linha de comando do Windows e para quem já usa e quer ir além. O Nível 1 só consulta (nada muda no computador); o Nível 2 trata de contratos, códigos de saída e erros; o Nível 3 trata de fontes, configurações, manifestos e scripts.</p>
+<p>O texto está em português do Brasil. Comandos e opções do winget ficam como o programa pede (<code>search</code>, <code>--exact</code>). As respostas do winget <strong>não são traduzidas</strong>: aparecem exatamente como ele escreveu, no idioma do Windows em que foram colhidas.</p>
+
+<hr>
+
+<h2>Como estudar</h2>
+<ol class="passo">
+  <li><strong>Leia com calma.</strong> Leia a ideia, a anatomia do comando e a resposta. Não pule a parte “Quando dá errado”.</li>
+  <li><strong>Rode no seu Windows.</strong> Abra o PowerShell (aula <a href="terminal-windows.html">Abrindo o Terminal</a>), digite o comando e compare a resposta com a do guia.</li>
+  <li><strong>Faça as missões.</strong> Nas caixas <strong>Missão</strong>, você completa o comando, roda no seu Windows e cola a resposta: a página confere se deu certo.</li>
+  <li><strong>Leia antes de instalar.</strong> Sempre <code>show</code> antes de <code>install</code>, sempre <code>--id</code> com <code>--exact</code>.</li>
+</ol>
+
+<div class="note">
+<strong>Sobre as saídas</strong>
+<p>Todas as saídas vieram do winget rodando no Windows de verdade: um script de coleta rodou cada comando e gravou a resposta exata. Antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. Números de versão e listas de pacotes mudam com o tempo, então a sua resposta pode ter valores diferentes.</p>
+</div>
+
+<hr>
+
+<h2>Escolha sua trilha</h2>
+<p>O guia tem três níveis, pensados para serem feitos em ordem. O mapa abaixo é montado a partir da lista oficial de aulas, o <code>NIVEIS</code>.</p>
+<div id="mapa-niveis" class="trilhas"></div>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

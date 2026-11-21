@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boas Práticas e Segurança | Guia winget</title>
+<meta name="description" content="Boas práticas para usar o winget com segurança: ID exato, fonte certa, escopo de usuário, cuidado com upgrade --all, export e configure.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Boas Práticas e Segurança</h1>
+
+<p class="intro">O winget instala programas com um comando, e isso é ótimo até o comando instalar a coisa errada. Esta aula junta os cuidados que aparecem ao longo do guia num lugar só.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Pedir sempre o pacote certo (ID exato e fonte).</li><li>Ler o <code>show</code> antes de instalar.</li><li>Por que evitar <code>upgrade --all</code> sem olhar a lista.</li><li>O que <code>export</code>, <code>import</code> e <code>configure</code> fazem e por que exigem atenção.</li></ul></div>
+
+<div class="note"><strong>Sobre esta aula.</strong> Esta aula não mostra saídas de comandos: é só explicação. As aulas com exemplos trazem a resposta exata do winget rodando no Windows de verdade, colhida por um script e com nomes trocados (computador <code>NOTEBOOK</code>, usuária fictícia <code>ana</code>).</div>
+
+
+<h2>1. Peça o pacote certo</h2>
+<p>Um nome como “jq” pode corresponder a vários pacotes. Para instalar exatamente o que você quer, use <code>--id</code> com <code>--exact</code> e, se quiser ser explícito sobre o catálogo, <code>--source winget</code>:</p>
+<pre class="cmd">winget install --id jqlang.jq --exact --source winget</pre>
+<p>Antes, confira o pacote com <code>winget show --id ... --exact</code>: editor, página oficial, licença e tipo de instalador.</p>
+
+<h2>2. Instale com o mínimo de poder</h2>
+<ul>
+<li>Use um terminal comum, não “como administrador”.</li>
+<li>Prefira <code>--scope user</code> quando o pacote oferecer: o programa fica só na sua conta.</li>
+<li>Pacotes <em>portable</em> são os mais simples de remover: ficam numa pasta e um atalho, sem instalador do sistema.</li>
+</ul>
+
+<h2>3. Atualize olhando a lista</h2>
+<p><code>winget upgrade</code> sem argumentos <em>mostra</em> o que tem atualização. Já <code>winget upgrade --all</code> atualiza tudo de uma vez, inclusive programas que você talvez preferisse manter numa versão específica. Atualize um por um pelo ID e use <code>winget pin</code> para segurar os que não podem mudar.</p>
+
+<h2>4. Cuidado com o que expõe ou altera muito</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Comando</th><th>O que faz</th><th>Cuidado</th></tr>
+<tr><td><code>winget list</code> (sem filtro)</td><td>lista todos os programas instalados</td><td>a lista revela tudo o que você usa; filtre com <code>--id</code> ao compartilhar</td></tr>
+<tr><td><code>winget export -o arquivo.json</code></td><td>grava num JSON os pacotes instalados</td><td>mesma lista completa; não publique sem revisar</td></tr>
+<tr><td><code>winget import -i arquivo.json</code></td><td>instala todos os pacotes de um JSON</td><td>instala muita coisa de uma vez; leia o arquivo antes</td></tr>
+<tr><td><code>winget configure</code></td><td>aplica um arquivo de configuração (pacotes, ajustes do sistema)</td><td>pode mudar muito o Windows; só rode arquivos que você leu e confia</td></tr>
+<tr><td><code>winget source add/remove/reset</code></td><td>muda os catálogos</td><td>uma fonte desconhecida pode servir pacotes maliciosos</td></tr>
+</table></div>
+<p>Este guia não mostra a saída desses comandos: eles listariam os programas do computador onde as saídas foram colhidas ou alterariam o sistema.</p>
+
+<h2>5. Hash e contratos</h2>
+<p>O winget confere o hash SHA-256 de cada instalador baixado contra o valor do manifesto; se não bater, ele recusa. Existe uma opção para ignorar essa conferência, e ela não deveria ser usada no dia a dia. Os contratos de fonte e de pacote (<code>--accept-source-agreements</code> e <code>--accept-package-agreements</code>) existem para você ler as condições; em scripts, aceite só sabendo o que está aceitando.</p>
+
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Instalação precisa</h3><p>Complete o comando para pedir exatamente o pacote pelo ID.</p><div class="ex-code">winget install --id jqlang.jq <input data-answer="--exact" aria-label="resposta"></div></div>
+
+<div class="mc" data-answer="1"><p class="mc-q">2. Qual comando atualiza tudo de uma vez e deve ser usado com cuidado?</p>
+<label><input type="radio" name="q2"> <code>winget upgrade</code></label>
+<label><input type="radio" name="q2"> <code>winget upgrade --all</code></label>
+<label><input type="radio" name="q2"> <code>winget show --versions</code></label></div>
+
+<div class="mc" data-answer="1"><p class="mc-q">3. O que <code>winget list</code> sem filtro revela?</p>
+<label><input type="radio" name="q3"> Só os pacotes do guia</label>
+<label><input type="radio" name="q3"> Todos os programas instalados no computador</label>
+<label><input type="radio" name="q3"> Só as fontes configuradas</label></div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li>Use <code>--id</code> com <code>--exact</code> e confira com <code>show</code> antes de instalar.</li>
+<li>Terminal comum e <code>--scope user</code> sempre que der.</li>
+<li>Atualize um por um; <code>--all</code> só olhando a lista.</li>
+<li><code>list</code>, <code>export</code>, <code>import</code> e <code>configure</code> pedem atenção redobrada.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

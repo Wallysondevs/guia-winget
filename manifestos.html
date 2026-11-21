@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manifestos YAML | Guia winget</title>
+<meta name="description" content="O que é um manifesto do winget: o arquivo YAML que descreve um pacote (ID, versão, editor, instalador e hash), com um exemplo comentado.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Manifestos YAML</h1>
+
+<p class="intro">Por trás de cada pacote do catálogo existe um manifesto: um arquivo de texto em YAML que diz o nome, a versão, quem publica, de onde baixar e qual é o hash do instalador.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Ler um manifesto campo por campo.</li><li>Diferenciar manifesto único (singleton) e em vários arquivos.</li><li>Ver um manifesto com erros de propósito.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. Um manifesto de exemplo</h2>
+<p>Este é o manifesto de um pacote fictício, <code>Exemplo.Ola</code>, criado só para as aulas (o endereço <code>example.com</code> é reservado para exemplos). O hash é o do arquivo <code>ola.txt</code> da aula <a href="hash.html">Hash de Arquivos</a>:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana\AppData\Local\Temp\guia-winget&gt; type manifesto-ok\Exemplo.Ola.yaml
+PackageIdentifier: Exemplo.Ola
+PackageVersion: 1.0.0
+PackageLocale: pt-BR
+Publisher: Exemplo
+PackageName: Ola Exemplo
+License: MIT
+ShortDescription: Pacote ficticio usado so para validar um manifesto.
+Installers:
+  - Architecture: x64
+    InstallerType: portable
+    InstallerUrl: https://example.com/ola.exe
+    InstallerSha256: B8DC0B9F6D4545698DE096F76E775C0A30F40D452DF99C8FB9CC7C90890D4A68
+ManifestType: singleton
+ManifestVersion: 1.6.0</pre>
+<dl class="anatomy">
+<dt>PackageIdentifier</dt><dd>o ID (<code>Editor.Programa</code>).</dd>
+<dt>PackageVersion</dt><dd>a versão deste manifesto.</dd>
+<dt>PackageLocale</dt><dd>o idioma dos textos.</dd>
+<dt>Installers</dt><dd>a lista de instaladores: arquitetura, tipo, endereço e hash SHA-256.</dd>
+<dt>ManifestType / ManifestVersion</dt><dd>o formato do arquivo (aqui, <code>singleton</code>: tudo num arquivo só) e a versão do esquema.</dd>
+</dl>
+<p>No repositório oficial, cada versão de pacote usa três arquivos (versão, textos e instaladores), em pastas como <code>manifests/j/jqlang/jq/1.7.1/</code>. O <code>singleton</code> é mais simples para aprender e testar.</p>
+
+<h2>2. Um manifesto com erros</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana\AppData\Local\Temp\guia-winget&gt; type manifesto-erro\Exemplo.Ola.yaml
+PackageIdentifier: Exemplo.Ola
+PackageLocale: pt-BR
+Publisher: Exemplo
+PackageName: Ola Exemplo
+License: MIT
+ShortDescription: Manifesto com erros de proposito.
+Installers:
+  - Architecture: x64
+    InstallerType: portatil
+    InstallerUrl: https://example.com/ola.exe
+    InstallerSha256: 1234
+ManifestType: singleton
+ManifestVersion: 1.6.0</pre>
+<p>Compare com o anterior: falta <code>PackageVersion</code>, o tipo <code>portatil</code> não existe (o certo é <code>portable</code>) e o hash tem 4 caracteres em vez de 64. A aula <a href="validar-manifesto.html">Validando Manifestos</a> mostra o que o winget disse sobre ele (spoiler: ele só reclamou do primeiro).</p>
+
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Campo do ID</h3><p>Complete o nome do campo que guarda o ID do pacote.</p><div class="ex-code">Package<input data-answer="Identifier" aria-label="resposta">: Exemplo.Ola</div></div>
+
+<div class="mc" data-answer="1"><p class="mc-q">2. Quantos caracteres hexadecimais tem um hash SHA-256?</p>
+<label><input type="radio" name="q2"> 32</label>
+<label><input type="radio" name="q2"> 64</label>
+<label><input type="radio" name="q2"> 4</label></div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li>Manifestos são arquivos YAML que descrevem pacotes.</li>
+<li>Campos-chave: ID, versão, editor, instaladores e hash.</li>
+<li><code>singleton</code> põe tudo num arquivo só.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referência Rápida | Guia winget</title>
+<meta name="description" content="Referência rápida dos comandos e opções do winget usados no guia: search, show, install, list, upgrade, pin, uninstall, download, source, settings, hash e validate.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Referência Rápida</h1>
+
+<p class="intro">Todos os comandos do guia numa página só, para consultar depois. Cada linha aponta para a aula que explica o comando com a saída real.</p>
+
+<div class="note"><strong>Sobre esta aula.</strong> Esta aula não mostra saídas de comandos: é só explicação. As aulas com exemplos trazem a resposta exata do winget rodando no Windows de verdade, colhida por um script e com nomes trocados (computador <code>NOTEBOOK</code>, usuária fictícia <code>ana</code>).</div>
+
+
+<h2>Consultar (não muda nada)</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Comando</th><th>Para quê</th><th>Aula</th></tr>
+<tr><td><code>winget --version</code></td><td>versão do winget</td><td><a href="instalar-e-versao.html">Instalação e Versão</a></td></tr>
+<tr><td><code>winget --info</code></td><td>versão, sistema, pastas e links</td><td><a href="winget-info.html">--info</a></td></tr>
+<tr><td><code>winget --help</code> / <code>winget search --help</code></td><td>lista de comandos / opções de um comando</td><td><a href="ajuda.html">Ajuda</a></td></tr>
+<tr><td><code>winget search jq</code></td><td>procura pacotes</td><td><a href="buscar.html">search</a></td></tr>
+<tr><td><code>winget search --id jqlang.jq --exact</code></td><td>procura pelo ID exato</td><td><a href="buscar-filtros.html">Filtros</a></td></tr>
+<tr><td><code>winget search --tag json</code> / <code>--moniker jq</code> / <code>--command jq</code></td><td>procura por etiqueta, apelido ou comando</td><td><a href="buscar-tag-moniker.html">Tags e monikers</a></td></tr>
+<tr><td><code>winget show --id jqlang.jq --exact</code></td><td>detalhes do pacote</td><td><a href="mostrar.html">show</a></td></tr>
+<tr><td><code>winget show --id jqlang.jq --exact --versions</code></td><td>versões disponíveis</td><td><a href="versoes.html">Versões</a></td></tr>
+<tr><td><code>winget source list</code> / <code>source export</code></td><td>fontes configuradas</td><td><a href="fontes.html">Fontes</a></td></tr>
+<tr><td><code>winget settings export</code></td><td>configurações em JSON</td><td><a href="configuracoes.html">Configurações</a></td></tr>
+<tr><td><code>winget features</code></td><td>recursos experimentais</td><td><a href="recursos-experimentais.html">features</a></td></tr>
+<tr><td><code>winget hash arquivo</code></td><td>SHA-256 de um arquivo</td><td><a href="hash.html">hash</a></td></tr>
+<tr><td><code>winget validate --manifest arquivo.yaml</code></td><td>confere um manifesto</td><td><a href="validar-manifesto.html">validate</a></td></tr>
+</table></div>
+
+<h2>Opções que aparecem em quase todo comando</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Opção</th><th>O que faz</th></tr>
+<tr><td><code>--id</code>, <code>--name</code>, <code>--moniker</code></td><td>em qual campo procurar</td></tr>
+<tr><td><code>-e</code>, <code>--exact</code></td><td>só aceita o valor exato (diferencia maiúsculas)</td></tr>
+<tr><td><code>-s</code>, <code>--source</code></td><td>escolhe a fonte (<code>winget</code> ou <code>msstore</code>)</td></tr>
+<tr><td><code>-n</code>, <code>--count</code></td><td>limita a quantidade de resultados</td></tr>
+<tr><td><code>--scope user</code> / <code>machine</code></td><td>instala só para você ou para todos</td></tr>
+<tr><td><code>--accept-source-agreements</code></td><td>aceita os contratos das fontes</td></tr>
+<tr><td><code>--accept-package-agreements</code></td><td>aceita a licença do pacote</td></tr>
+<tr><td><code>--disable-interactivity</code></td><td>nunca para esperando resposta</td></tr>
+</table></div>
+
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

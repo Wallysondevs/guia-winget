@@ -1,0 +1,12 @@
+# logs de coleta não são publicados
+_saidas/
+_saidas-anon/
+# anotações locais não são publicadas (só README e CONTRIBUINDO vão para o git)
+/*.md
+!/README.md
+!/CONTRIBUINDO.md
+MODELO-PAGINA.txt
+node_modules/
+tools/node_modules/
+*.bak
+__pycache__/

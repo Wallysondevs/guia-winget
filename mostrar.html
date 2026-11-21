@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detalhes de um Pacote (show) | Guia winget</title>
+<meta name="description" content="Como usar winget show para ver editor, descrição, página oficial, licença, versão e instalador de um pacote antes de instalar.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar" id="sidebar" aria-label="Tópicos"></nav>
+<main class="main">
+<div class="content">
+
+<div class="pager"></div>
+
+<h1>Detalhes de um Pacote (<code>show</code>)</h1>
+
+<p class="intro">Antes de instalar, olhe. O <code>show</code> mostra a ficha completa de um pacote: quem publica, o que faz, onde fica o site, a licença e qual instalador será usado.</p>
+
+<div class="note"><strong>Você vai aprender</strong><ul><li>Rodar <code>winget show</code> com ID exato.</li><li>Ler editor, descrição, licença e links.</li><li>Achar o tipo de instalador e o endereço do download.</li></ul></div>
+
+<div class="note"><strong>Sobre as saídas.</strong> Todas as saídas desta aula vieram do winget rodando no Windows de verdade (<code>winget v1.29.380 | Windows 10.0.19045.0 | idioma da interface pt-BR | PowerShell 7.7.0 | 2026-11-21 12:49</code>). Um script de coleta rodou cada comando, um por um, e gravou a resposta exata; antes de gravar, o nome do computador virou <code>NOTEBOOK</code>, o da pessoa virou a usuária fictícia <code>ana</code> (pasta <code>C:\Users\ana</code>) e endereços de rede viraram exemplos. As mensagens aparecem no idioma do Windows em que foram colhidas, exatamente como o winget escreveu: nunca traduzimos nem inventamos saída. Os títulos das tabelas e as mensagens podem estar em outro idioma no seu computador, e os números de versão mudam com o tempo.</div>
+
+
+<h2>1. A ficha do jq</h2>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget show --id jqlang.jq --exact
+Encontrado jq [jqlang.jq]
+Versão: 1.8.2
+Fornecedor: jqlang
+URL do Fornecedor: https://github.com/jqlang
+URL de Suporte do Fornecedor: https://github.com/jqlang/jq/issues
+Moniker: jq
+Descrição: jq is a lightweight and flexible command-line JSON processor.
+Página inicial: https://github.com/jqlang/jq
+Licença: MIT License
+URL da licença: https://github.com/jqlang/jq/blob/master/COPYING
+Notas de Versão
+  This is a patch release with security fixes and bug fixes since 1.8.1, along with new builds for Windows arm64 and Docker arm/v7.
+  Security fixes
+  - CVE-2026-32316: Fix heap buffer overflow in jvp_string_append and jvp_string_copy_replace_bad. @itchyny e47e56d
+  - CVE-2026-33947: Limit path depth to prevent stack overflow in jv_setpath, jv_getpath, jv_delpaths. @itchyny fb59f14
+  - CVE-2026-33948: Fix NUL truncation in the JSON parser. @itchyny 6374ae0
+  - CVE-2026-39956: Fix _strindices missing runtime type checks. @tlsbollei fdf8ef0
+  - CVE-2026-39979: Fix out-of-bounds read in jv_parse_sized(). @wader 2f09060
+  - CVE-2026-40164: Randomize hash seed to mitigate hash collision DoS attacks. @AsafMeizner @itchyny 0c7d133
+  - CVE-2026-40612: Limit containment check depth to prevent stack overflow in contains. @itchyny d1a1256
+  - CVE-2026-41256: Fix NUL truncation in program files loaded with -f. @itchyny 5a015de
+  - CVE-2026-41257: Fix signed-int overflow in stack_reallocate. @itchyny 01b3cde
+  - CVE-2026-43894: Reject numeric literals longer than DEC_MAX_DIGITS (999999999). @itchyny 9761ceb
+  - CVE-2026-43895: Reject embedded NUL bytes in module import paths. @itchyny 9d223f1
+  - CVE-2026-43896: Limit recursive object merge depth to prevent stack overflow. @itchyny 532ccea
+  - CVE-2026-44777: Detect circular module imports to prevent stack overflow. @itchyny f58787c
+  - CVE-2026-47770: Guard deep structural equality and comparison recursion. @fuyu0425 7122866
+  - CVE-2026-49839: Fix heap-buffer-overflow in raw file loading. @itchyny e987df0
+  - CVE-2026-54679: Tighten string length bounds and propagate invalid jv in implode. @itchyny 46d1da3
+  - GHSA-gf4g-95wj-4q4r: Fix use-after-free in args2obj() array argument path. @sseal #3498
+  - GHSA-hj52-j2c9-r8r4: Fix signed-int overflow in tokenadd to prevent buffer overflow. @itchyny 63751f8
+  - Limit the number of function parameters and definitions to prevent SEGV. @OwenSanzas #3460
+  - Pre-allocate tokenbuf for string parser to avoid undefined behavior. @fab1ano #3485
+  - Avoid stack overflow when freeing deeply nested values. @itchyny 33d7bce
+  - Fix memory leaks and double frees. @itchyny #3487
+
+  Releasing
+  - Add builds for Windows arm64. @dennisameling #3376
+  - Support arm/v7 architecture in Docker images. @itchyny #3463
+  - Update GPG signing key. @itchyny 0ff997f
+  - Add artifact-metadata permission for actions/attest. @itchyny #3530
+  - Upload attestation bundle as a release artifact, allowing unauthenticated
+    verification via gh attestation verify --bundle jq-attestation.json.
+    @itchyny #3563
+
+  CLI changes
+  - Improve error message truncation with closing delimiters. @itchyny #3478
+  - Remove extra space from die function output. @krtk6160 #3391
+  - Fix raw input flag not to corrupt multi-byte characters. @itchyny #3421
+  - Fix crash when importing a module with errors twice. @itchyny #3497
+  - Increase the maximum printing depth from 256 to 10000. @ishnagy #3414
+
+  Changes to existing functions
+  - Fix rtrimstr("") always outputting "". @A4-Tacks #3415
+  - Fix infinite loop and undefined behavior in del(.[nan]). @itchyny #3490
+  - Refactor @uri and @urid to fix multi-byte UTF-8 corruption. @itchyny #3495
+  - Fix tonumber and toboolean to reject strings with embedded null bytes. @itchyny #3496
+  - Fix undefined behavior in modulo operator. @fab1ano #3486
+  - Fix reversed pointer subtraction in f_env bounds check. @itchyny #3465
+  - Fix missing validity check in f_strflocaltime after f_localtime. @itchyny #3491
+  - Fix year 2038 problem on 32-bit platforms. @itchyny #3407
+  - Use // instead of //= in from_entries definition. @itchyny #3516
+
+  Build and test changes
+  - Drop strptime test using non-portable %F. @alyssais #3365
+  - Limit oniguruma depth to 1024 in jq_fuzz_execute. @sudhackar #3377
+  - Fix localization test for time formatting functions. @itchyny #3409
+  - Fix expected value assertion. @itchyny #3431 #3408
+  - Fix typo in tests/jq.test. @bigmoonbit #3441
+  - Refactor tm2jv to handle fractional seconds. @itchyny #3489
+  - Fix jq_fuzz_parse_stream: use iterative parser API for streaming mode. @OwenSanzas #3499
+  - Fix crashes and resource leaks in jq_testsuite. @itchyny #3509
+  - Support building with --disable-maintainer-mode and source != build dir. @Saur2000 #3518
+  - Add Solaris support. @vlmarek #3515
+  - Respect SOURCE_DATE_EPOCH while generating man page. @McSinyx #3514
+  - Fix undefined pointer arithmetic in UTF-8 helpers. @theyoucheng df924ea
+  - Fix one-byte over-read in BASE64_DECODE_TABLE. @itchyny #3547
+
+  Documentation changes
+  - Add wiki link to navigation bar. @wader #3424
+  - Add missing word in manual for rawfile. @jpmens #3434
+  - Fix typo "stder" to "stderr". @jjatria #3446
+  - Fix buttons in tutorial to toggle labels when clicked on. @itchyny #3493
+  - Fix "happened" spelling in tutorial changelog entries. @Rohan5commit #3525
+URL de Notas de Versão: https://github.com/jqlang/jq/releases/tag/jq-1.8.2
+Marcas: jq
+Instaladora:
+  Tipo de instalador: portable
+  URL do instalador: https://github.com/jqlang/jq/releases/download/jq-1.8.2/jq-windows-amd64.exe
+  Instalador SHA256: a6fc67fedaf9128a3309a1e2ebb8b986aeccf70122ee46d2cb4849e423f0c627
+  Data do Lançamento: 2026-06-20
+  Distribuição Offline Com Suporte: true</pre>
+<dl class="anatomy">
+<dt>show</dt><dd>mostra os detalhes de um pacote, sem instalar nada.</dd>
+<dt>--id jqlang.jq</dt><dd>qual pacote.</dd>
+<dt>--exact</dt><dd>sem adivinhação: exatamente esse ID.</dd>
+</dl>
+<p>A primeira linha confirma o pacote encontrado: <code>Encontrado jq [jqlang.jq]</code>, com o ID entre colchetes. Depois vêm os campos do manifesto, com os nomes em português: <code>Versão</code>, <code>Fornecedor</code> (quem publica), <code>Moniker</code>, <code>Descrição</code>, <code>Página inicial</code>, <code>Licença</code>, as <code>Notas de Versão</code> (o texto que o projeto escreveu, em inglês) e as <code>Marcas</code> (etiquetas). No fim, a parte <code>Instaladora</code> diz o <code>Tipo de instalador</code> (<code>portable</code>), a <code>URL do instalador</code> e o <code>Instalador SHA256</code>, o hash que o winget confere depois de baixar.</p>
+
+<h2>2. O que conferir antes de instalar</h2>
+<ul>
+<li><strong>Fornecedor e página inicial:</strong> são de quem você espera?</li>
+<li><strong>Licença:</strong> livre, gratuita, paga?</li>
+<li><strong>Tipo de instalador:</strong> um <code>portable</code> é só um executável; um <code>msi</code> ou <code>exe</code> roda um instalador de verdade (aula <a href="tipos-de-instalador.html">Tipos de Instalador</a>).</li>
+</ul>
+
+
+<hr>
+<h2 id="errado">Quando dá errado</h2>
+
+<p>Sem <code>--id</code> e <code>--exact</code>, o winget decide sozinho o que o termo quer dizer, e o resultado pode não ser o que você imaginava:</p>
+<pre class="term" data-title="Windows PowerShell">PS C:\Users\ana&gt; winget show python
+Encontrado Python Install Manager [9NQ7512CXL7T]
+Versão: Unknown
+Fornecedor: Python Software Foundation
+URL do Fornecedor: https://www.python.org/
+URL de Suporte do Fornecedor: https://www.python.org/doc/
+Descrição:
+  The Python install manager helps you to install, manage, and launch Python on Windows.
+
+  After install, the "py" command is your tool of choice - try "py help" to see what it can do! (Not working? You may need to uninstall the old "Python launcher", and check "Manage app execution aliases" to ensure the command is enabled.)
+
+  Complete documentation is available at https://docs.python.org/3/using/windows
+
+  Official release page is at https://www.python.org/downloads/latest/pymanager
+Licença: https://docs.python.org/license
+URL de Privacidade: https://www.python.org/privacy
+Copyright: (c) Python Software Foundation
+Acordos:
+  Category: Developer tools
+  Pricing: Free
+  Free Trial: No
+  Terms of Transaction: https://aka.ms/microsoft-store-terms-of-transaction
+  Seizure Warning: https://aka.ms/microsoft-store-seizure-warning
+  Store License Terms: https://aka.ms/microsoft-store-license
+Instaladora:
+  Tipo de instalador: msstore
+  Id do Produto da Microsoft Store: 9NQ7512CXL7T
+  Distribuição Offline Com Suporte: true</pre>
+<p>Não deu erro (o código de saída foi zero), mas veio o <code>Python Install Manager</code> da Microsoft Store (ID <code>9NQ7512CXL7T</code>, <code>Tipo de instalador: msstore</code>), não um pacote da fonte <code>winget</code>. Repare também no bloco <code>Acordos</code>, típico de pacotes da loja. Para ter certeza do pacote, procure antes com <code>winget search</code> e use o ID com <code>--exact</code>.</p>
+
+
+<hr>
+<h2>Referência rápida</h2>
+<div class="table-wrap"><table class="ref">
+<tr><th>Você escreve</th><th>O que faz</th></tr>
+<tr><td><code>winget show --id ID --exact</code></td><td>ficha completa do pacote</td></tr>
+</table></div>
+
+<hr>
+<h2>Exercícios</h2>
+
+<div class="exercise"><h3>1. Ficha do pacote</h3><p>Complete para ver os detalhes do 7-Zip pelo ID.</p><div class="ex-code">winget <input data-answer="show" aria-label="resposta"> --id 7zip.7zip --exact</div></div>
+
+<div class="trycmd" data-goal="src:\bshow\b;;src:--id\s+jqlang\.jq;;src:--exact\b|\s-e\b;;outre:\[jqlang\.jq\]">
+<p class="try-task"><strong>Missão:</strong> Mostre os detalhes do pacote <code>jqlang.jq</code> com ID exato e descubra o tipo de instalador.</p>
+<pre class="script">
+winget show
+</pre>
+<pre class="solucao">
+winget show --id jqlang.jq --exact
+</pre>
+<pre class="saida-ok" hidden>
+Encontrado jq [jqlang.jq]
+Versão: 1.8.2
+Fornecedor: jqlang
+URL do Fornecedor: https://github.com/jqlang
+URL de Suporte do Fornecedor: https://github.com/jqlang/jq/issues
+Moniker: jq
+Descrição: jq is a lightweight and flexible command-line JSON processor.
+Página inicial: https://github.com/jqlang/jq
+Licença: MIT License
+URL da licença: https://github.com/jqlang/jq/blob/master/COPYING
+Notas de Versão
+  This is a patch release with security fixes and bug fixes since 1.8.1, along with new builds for Windows arm64 and Docker arm/v7.
+  Security fixes
+  - CVE-2026-32316: Fix heap buffer overflow in jvp_string_append and jvp_string_copy_replace_bad. @itchyny e47e56d
+  - CVE-2026-33947: Limit path depth to prevent stack overflow in jv_setpath, jv_getpath, jv_delpaths. @itchyny fb59f14
+  - CVE-2026-33948: Fix NUL truncation in the JSON parser. @itchyny 6374ae0
+  - CVE-2026-39956: Fix _strindices missing runtime type checks. @tlsbollei fdf8ef0
+  - CVE-2026-39979: Fix out-of-bounds read in jv_parse_sized(). @wader 2f09060
+  - CVE-2026-40164: Randomize hash seed to mitigate hash collision DoS attacks. @AsafMeizner @itchyny 0c7d133
+  - CVE-2026-40612: Limit containment check depth to prevent stack overflow in contains. @itchyny d1a1256
+  - CVE-2026-41256: Fix NUL truncation in program files loaded with -f. @itchyny 5a015de
+  - CVE-2026-41257: Fix signed-int overflow in stack_reallocate. @itchyny 01b3cde
+  - CVE-2026-43894: Reject numeric literals longer than DEC_MAX_DIGITS (999999999). @itchyny 9761ceb
+  - CVE-2026-43895: Reject embedded NUL bytes in module import paths. @itchyny 9d223f1
+  - CVE-2026-43896: Limit recursive object merge depth to prevent stack overflow. @itchyny 532ccea
+  - CVE-2026-44777: Detect circular module imports to prevent stack overflow. @itchyny f58787c
+  - CVE-2026-47770: Guard deep structural equality and comparison recursion. @fuyu0425 7122866
+  - CVE-2026-49839: Fix heap-buffer-overflow in raw file loading. @itchyny e987df0
+  - CVE-2026-54679: Tighten string length bounds and propagate invalid jv in implode. @itchyny 46d1da3
+  - GHSA-gf4g-95wj-4q4r: Fix use-after-free in args2obj() array argument path. @sseal #3498
+  - GHSA-hj52-j2c9-r8r4: Fix signed-int overflow in tokenadd to prevent buffer overflow. @itchyny 63751f8
+  - Limit the number of function parameters and definitions to prevent SEGV. @OwenSanzas #3460
+  - Pre-allocate tokenbuf for string parser to avoid undefined behavior. @fab1ano #3485
+  - Avoid stack overflow when freeing deeply nested values. @itchyny 33d7bce
+  - Fix memory leaks and double frees. @itchyny #3487
+
+  Releasing
+  - Add builds for Windows arm64. @dennisameling #3376
+  - Support arm/v7 architecture in Docker images. @itchyny #3463
+  - Update GPG signing key. @itchyny 0ff997f
+  - Add artifact-metadata permission for actions/attest. @itchyny #3530
+  - Upload attestation bundle as a release artifact, allowing unauthenticated
+    verification via gh attestation verify --bundle jq-attestation.json.
+    @itchyny #3563
+
+  CLI changes
+  - Improve error message truncation with closing delimiters. @itchyny #3478
+  - Remove extra space from die function output. @krtk6160 #3391
+  - Fix raw input flag not to corrupt multi-byte characters. @itchyny #3421
+  - Fix crash when importing a module with errors twice. @itchyny #3497
+  - Increase the maximum printing depth from 256 to 10000. @ishnagy #3414
+
+  Changes to existing functions
+  - Fix rtrimstr("") always outputting "". @A4-Tacks #3415
+  - Fix infinite loop and undefined behavior in del(.[nan]). @itchyny #3490
+  - Refactor @uri and @urid to fix multi-byte UTF-8 corruption. @itchyny #3495
+  - Fix tonumber and toboolean to reject strings with embedded null bytes. @itchyny #3496
+  - Fix undefined behavior in modulo operator. @fab1ano #3486
+  - Fix reversed pointer subtraction in f_env bounds check. @itchyny #3465
+  - Fix missing validity check in f_strflocaltime after f_localtime. @itchyny #3491
+  - Fix year 2038 problem on 32-bit platforms. @itchyny #3407
+  - Use // instead of //= in from_entries definition. @itchyny #3516
+
+  Build and test changes
+  - Drop strptime test using non-portable %F. @alyssais #3365
+  - Limit oniguruma depth to 1024 in jq_fuzz_execute. @sudhackar #3377
+  - Fix localization test for time formatting functions. @itchyny #3409
+  - Fix expected value assertion. @itchyny #3431 #3408
+  - Fix typo in tests/jq.test. @bigmoonbit #3441
+  - Refactor tm2jv to handle fractional seconds. @itchyny #3489
+  - Fix jq_fuzz_parse_stream: use iterative parser API for streaming mode. @OwenSanzas #3499
+  - Fix crashes and resource leaks in jq_testsuite. @itchyny #3509
+  - Support building with --disable-maintainer-mode and source != build dir. @Saur2000 #3518
+  - Add Solaris support. @vlmarek #3515
+  - Respect SOURCE_DATE_EPOCH while generating man page. @McSinyx #3514
+  - Fix undefined pointer arithmetic in UTF-8 helpers. @theyoucheng df924ea
+  - Fix one-byte over-read in BASE64_DECODE_TABLE. @itchyny #3547
+
+  Documentation changes
+  - Add wiki link to navigation bar. @wader #3424
+  - Add missing word in manual for rawfile. @jpmens #3434
+  - Fix typo "stder" to "stderr". @jjatria #3446
+  - Fix buttons in tutorial to toggle labels when clicked on. @itchyny #3493
+  - Fix "happened" spelling in tutorial changelog entries. @Rohan5commit #3525
+URL de Notas de Versão: https://github.com/jqlang/jq/releases/tag/jq-1.8.2
+Marcas: jq
+Instaladora:
+  Tipo de instalador: portable
+  URL do instalador: https://github.com/jqlang/jq/releases/download/jq-1.8.2/jq-windows-amd64.exe
+  Instalador SHA256: a6fc67fedaf9128a3309a1e2ebb8b986aeccf70122ee46d2cb4849e423f0c627
+  Data do Lançamento: 2026-06-20
+  Distribuição Offline Com Suporte: true
+</pre>
+</div>
+
+<hr>
+<h2>Resumo</h2>
+<ul>
+<li><code>winget show</code> mostra a ficha sem instalar.</li>
+<li>Confira fornecedor, site, licença e tipo de instalador.</li>
+<li>Termo solto: o winget pode escolher um pacote que você não esperava; use <code>--id</code> com <code>--exact</code>.</li>
+</ul>
+
+<div class="pager"></div>
+
+</div>
+</main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>
